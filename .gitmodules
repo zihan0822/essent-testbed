@@ -7,3 +7,6 @@
 [submodule "chisel-testers"]
 	path = chisel-testers
 	url = git@github.com:ucb-bar/chisel-testers.git
+[submodule "firrtl-interpreter"]
+	path = firrtl-interpreter
+	url = git@github.com:ucb-bar/firrtl-interpreter.git
