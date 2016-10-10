@@ -28,7 +28,10 @@ class SoloRegTests(c: SoloReg) extends PeekPokeTester(c) {
 
 object SoloRegMain {
   def main(args: Array[String]): Unit = {
-    // if (!Driver(() => new SoloReg(), "firrtl")(c => new SoloRegTests(c))) System.exit(1)
-    if (!Driver.run(() => new SoloReg(), "./test_run_dir/playground.SoloReg/SoloReg")(c => new SoloRegTests(c))) System.exit(1)
+    if (args.size > 0) {
+			if (!Driver(() => new SoloReg(), "firrtl")(c => new SoloRegTests(c))) System.exit(1)
+		} else {
+			if (!Driver.run(() => new SoloReg(), "./test_run_dir/playground.SoloReg/SoloReg")(c => new SoloRegTests(c))) System.exit(1)
+		}
   }
 }
