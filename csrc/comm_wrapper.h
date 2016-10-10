@@ -70,10 +70,10 @@ private:
 
   virtual void step() {
     // toggle clock
-    dut_.eval();
+    dut_.eval(true);
   }
   virtual void update() {
-    dut_.eval();
+    dut_.eval(false);
   }
   virtual size_t put_value(sig_wrapper_t*& sig, uint64_t* data,
                            bool force = false) {

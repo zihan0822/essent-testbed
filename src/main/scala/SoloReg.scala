@@ -21,6 +21,7 @@ class SoloRegTests(c: SoloReg) extends PeekPokeTester(c) {
 	poke(c.io.in, 4)
 	poke(c.io.en, 1)
 	peek(c.io.out)
+	peek(c.io.out)
 	step(1)
 	peek(c.io.out)
 }

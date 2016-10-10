@@ -42,7 +42,7 @@ class CounterTests(c: Counter) extends PeekPokeTester(c) {
 
 object CounterMain {
   def main(args: Array[String]): Unit = {
-    if (!Driver(() => new Counter(), "verilator")(c => new CounterTests(c))) System.exit(1)
+    // if (!Driver(() => new Counter(), "verilator")(c => new CounterTests(c))) System.exit(1)
     // if (!Driver.run(() => new Counter(), "test_run_dir/playground.Counter/VCounter")(c => new CounterTests(c))) System.exit(1)
     // if (!Driver.run(() => new Counter(), "./api_test")(c => new CounterTests(c))) System.exit(1)
   }
