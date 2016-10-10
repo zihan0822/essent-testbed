@@ -34,10 +34,16 @@ class Counter extends Module {
 
 class CounterTests(c: Counter) extends PeekPokeTester(c) {
   step(1)
+  poke(c.io.inc, 1)
+	poke(c.io.amt, 4)
+	step(1)
+	peek(c.io.tot)
 }
 
 object CounterMain {
   def main(args: Array[String]): Unit = {
     if (!Driver(() => new Counter(), "verilator")(c => new CounterTests(c))) System.exit(1)
+    // if (!Driver.run(() => new Counter(), "test_run_dir/playground.Counter/VCounter")(c => new CounterTests(c))) System.exit(1)
+    // if (!Driver.run(() => new Counter(), "./api_test")(c => new CounterTests(c))) System.exit(1)
   }
 }

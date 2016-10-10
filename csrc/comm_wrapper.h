@@ -1,15 +1,26 @@
 #ifndef COMM_WRAPPER_H_
 #define COMM_WRAPPER_H_
+
+#include <cinttypes>
+
 #include "sim_api.h"
 
 
 class sig_wrapper_t {
 public:
-  sig_wrapper_t(int x) : x_(x) {}
+  sig_wrapper_t(uint64_t *x) : x_(x) {}
 
   virtual size_t get_num_words() { return 1; }
+  virtual size_t get_value(uint64_t* values) {
+    *values = *x_;
+    return 1;
+  }
+  virtual size_t put_value(uint64_t* values) {
+    *x_ = *values;
+    return 1;
+  }
 private:
-  int x_;
+  uint64_t *x_;
 };
 
 
@@ -26,6 +37,18 @@ public:
     sim_data.inputs.clear();
     sim_data.outputs.clear();
     sim_data.signals.clear();
+  }
+
+  void add_in_signal(uint64_t *sig_ptr) {
+    sim_data.inputs.push_back(new sig_wrapper_t(sig_ptr));
+  }
+
+  void add_out_signal(uint64_t *sig_ptr) {
+    sim_data.outputs.push_back(new sig_wrapper_t(sig_ptr));
+  }
+
+  void add_signal(uint64_t *sig_ptr) {
+    sim_data.signals.push_back(new sig_wrapper_t(sig_ptr));
   }
 
 private:
@@ -49,16 +72,18 @@ private:
     // toggle clock
     dut_.eval();
   }
-  virtual void update() {}
+  virtual void update() {
+    dut_.eval();
+  }
   virtual size_t put_value(sig_wrapper_t*& sig, uint64_t* data,
                            bool force = false) {
-    return 0;
+    return sig->put_value(data);
   }
   virtual size_t get_value(sig_wrapper_t*& sig, uint64_t* data) {
-    return 0;
+    return sig->get_value(data);
   }
   virtual size_t get_chunk(sig_wrapper_t*& sig) {
-    return 0;
+    return sig->get_num_words();
   }
 };
 
