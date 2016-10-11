@@ -29,6 +29,15 @@ class CommWrapper: public sim_api_t<sig_wrapper_t*> {
 public:
   CommWrapper(DUT_t_ &dut) : dut_(dut), ok_to_exit_(false) {}
 
+  ~CommWrapper() {
+    for (int i=0; i<sim_data.inputs.size(); i++)
+      delete sim_data.inputs[i];
+    for (int i=0; i<sim_data.outputs.size(); i++)
+      delete sim_data.outputs[i];
+    for (int i=0; i<sim_data.signals.size(); i++)
+      delete sim_data.signals[i];
+  }
+
   bool done() {
     return ok_to_exit_;
   }
