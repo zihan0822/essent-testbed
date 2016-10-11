@@ -80,6 +80,7 @@ private:
   virtual void step() {
     // toggle clock
     dut_.eval(true);
+    dut_.eval(false);
   }
   virtual void update() {
     dut_.eval(false);
