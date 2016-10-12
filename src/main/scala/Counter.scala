@@ -38,12 +38,21 @@ class CounterTests(c: Counter) extends PeekPokeTester(c) {
 	poke(c.io.amt, 4)
 	step(1)
 	peek(c.io.tot)
+	step(1)
+	peek(c.io.tot)
+	step(1)
+	peek(c.io.tot)
+  poke(c.io.inc, 0)
+	step(1)
+	peek(c.io.tot)
 }
 
 object CounterMain {
   def main(args: Array[String]): Unit = {
-    // if (!Driver(() => new Counter(), "verilator")(c => new CounterTests(c))) System.exit(1)
-    // if (!Driver.run(() => new Counter(), "test_run_dir/playground.Counter/VCounter")(c => new CounterTests(c))) System.exit(1)
-    // if (!Driver.run(() => new Counter(), "./api_test")(c => new CounterTests(c))) System.exit(1)
+    if (args.size > 0) {
+      if (!Driver(() => new Counter(), "firrtl")(c => new CounterTests(c))) System.exit(1)
+    } else {
+      if (!Driver.run(() => new Counter(), "./test_run_dir/playground.Counter/Counter")(c => new CounterTests(c))) System.exit(1)
+    }
   }
 }
