@@ -2,6 +2,7 @@
 #define COMM_WRAPPER_H_
 
 #include <cinttypes>
+#include <string>
 
 #include "sim_api.h"
 
@@ -58,6 +59,10 @@ public:
 
   void add_signal(uint64_t *sig_ptr) {
     sim_data.signals.push_back(new sig_wrapper_t(sig_ptr));
+  }
+
+  void map_signal(std::string label, size_t index) {
+    sim_data.signal_map[label] = index;
   }
 
 private:
