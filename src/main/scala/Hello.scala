@@ -17,8 +17,12 @@ class HelloTests(c: Hello) extends PeekPokeTester(c) {
   // expect(c.io.out, 42)
 }
 
-object Hello {
+object HelloMain {
   def main(args: Array[String]): Unit = {
-    if (!Driver(() => new Hello(), "verilator")(c => new HelloTests(c))) System.exit(1)
+    if (args.size > 0) {
+      if (!Driver(() => new Hello(), "firrtl")(c => new HelloTests(c))) System.exit(1)
+    } else {
+      if (!Driver.run(() => new Hello(), "./test_run_dir/playground.Hello/Hello")(c => new HelloTests(c))) System.exit(1)
+    }
   }
 }
