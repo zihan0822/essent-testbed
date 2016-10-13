@@ -32,7 +32,7 @@ class Counter extends Module {
   io.tot := Counter.counter(255.U, io.inc, io.amt)
 }
 
-class CounterTests(c: Counter) extends PeekPokeTester(c) {
+class MyCounterTest(c: Counter) extends PeekPokeTester(c) {
   step(1)
   poke(c.io.inc, 1)
 	poke(c.io.amt, 4)
@@ -47,12 +47,36 @@ class CounterTests(c: Counter) extends PeekPokeTester(c) {
 	peek(c.io.tot)
 }
 
+class CounterTest(c: Counter) extends PeekPokeTester(c) {
+  val maxInt  = 16
+  var curCnt  = 0
+
+  def intWrapAround(n: Int, max: Int) = 
+    if(n > max) 0 else n
+
+  // let it spin for a bit
+  for (i <- 0 until 5) {
+    step(1)
+  }
+
+  for (i <- 0 until 10) {
+    val inc = rnd.nextBoolean()
+    val amt = rnd.nextInt(maxInt)
+    poke(c.io.inc, if (inc) 1 else 0)
+    poke(c.io.amt, amt)
+    step(1)
+    curCnt = if(inc) intWrapAround(curCnt + amt, 255) else curCnt
+    expect(c.io.tot, curCnt)
+  }
+}
+
+
 object CounterMain {
   def main(args: Array[String]): Unit = {
     if (args.size > 0) {
-      if (!Driver(() => new Counter(), "firrtl")(c => new CounterTests(c))) System.exit(1)
+      if (!Driver(() => new Counter(), "firrtl")(c => new CounterTest(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Counter(), "./test_run_dir/playground.Counter/Counter")(c => new CounterTests(c))) System.exit(1)
+      if (!Driver.run(() => new Counter(), "./test_run_dir/playground.Counter/Counter")(c => new CounterTest(c))) System.exit(1)
     }
   }
 }
