@@ -7,7 +7,7 @@ import essent._
 import java.io.File
 
 object EssentBackend {
-  def buildAndRun[T <: chisel3.Module](dutGen: () => T)(testerGen: T => PeekPokeTester[T]) {
+  def buildAndRun[T <: chisel3.Module](dutGen: () => T)(testerGen: T => PeekPokeTester[T]) = {
     // emit firrtl
     val circuit = chisel3.Driver.elaborate(dutGen)
     // parse firrtl
@@ -23,6 +23,6 @@ object EssentBackend {
     // compile cpp
     essent.Driver.compileCPP(dutName, buildDir).!
     // call into cpp
-    if (!Chisel.iotesters.Driver.run(dutGen, s"$buildDir/$dutName")(testerGen)) System.exit(1)
+    Chisel.iotesters.Driver.run(dutGen, s"$buildDir/$dutName")(testerGen)
   }
 }
