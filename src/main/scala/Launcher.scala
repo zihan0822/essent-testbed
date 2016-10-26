@@ -3,6 +3,13 @@ package playground
 import Chisel._
 
 object Launcher {
+  val allTests = List("Accumulator", "Adder", "Counter", "DynamicMemorySearch",
+                      "Hello", "LFSR16", "Max2", "MaxN", "Memo", "Mul", "Mux2",
+                      "Mux4", "Mux8", "RealGCD", "RealGCD2", "SingleEvenFilter",
+                      "SoloReg", "VecShiftRegister", "VecShiftRegisterParam",
+                      "VecShiftRegisterSimple", "VendingMachine",
+                      "VendingMachineSwitch")
+
   def testDUT(dutName: String): Boolean = dutName match {
     case "Accumulator" =>
       EssentBackend.buildAndRun(() => new Accumulator())(c => new AccumulatorTests(c))
@@ -51,12 +58,15 @@ object Launcher {
     case s: String => throw new Exception(s"Unknown testcase $s")
   }
 
-
   def main(args: Array[String]): Unit = {
     val argsList = args.toList
     if (argsList.isEmpty)
       throw new Exception("Please give name of testcase")
     val dutName = argsList.head
-    if (!testDUT(dutName)) System.exit(1)
+    if (dutName == "all") {
+      if (!(allTests forall testDUT)) System.exit(1)
+    } else {
+      if (!testDUT(dutName)) System.exit(1)
+    }
   }
 }
