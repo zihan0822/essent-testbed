@@ -1,15 +1,15 @@
 [submodule "chisel3"]
 	path = chisel3
-	url = git@github.com:ucb-bar/chisel3.git
+	url = https://github.com/ucb-bar/chisel3.git
 [submodule "firrtl"]
 	path = firrtl
-	url = git@github.com:ucb-bar/firrtl.git
+	url = https://github.com/ucb-bar/firrtl.git
 [submodule "chisel-testers"]
 	path = chisel-testers
-	url = git@github.com:ucb-bar/chisel-testers.git
+	url = https://github.com/ucb-bar/chisel-testers.git
 [submodule "firrtl-interpreter"]
 	path = firrtl-interpreter
-	url = git@github.com:ucb-bar/firrtl-interpreter.git
+	url = https://github.com/ucb-bar/firrtl-interpreter.git
 [submodule "essent"]
 	path = essent
 	url = git@socks.lbl.gov:sbeamer/essent.git
