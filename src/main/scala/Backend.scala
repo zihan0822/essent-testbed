@@ -21,7 +21,8 @@ object EssentBackend {
     // generate cpp
     essent.Driver.generate(chirrtl, buildDir)
     // compile cpp
-    essent.Driver.compileCPP(dutName, buildDir).!
+    if (essent.Driver.compileCPP(dutName, buildDir).! != 0)
+      throw new Exception("compile error!")
     // call into cpp
     Chisel.iotesters.Driver.run(dutGen, s"$buildDir/$dutName")(testerGen)
   }
