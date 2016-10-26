@@ -47,7 +47,7 @@ class MyCounterTest(c: Counter) extends PeekPokeTester(c) {
 	peek(c.io.tot)
 }
 
-class CounterTest(c: Counter) extends PeekPokeTester(c) {
+class CounterTests(c: Counter) extends PeekPokeTester(c) {
   val maxInt  = 16
   var curCnt  = 0
 
@@ -74,9 +74,9 @@ class CounterTest(c: Counter) extends PeekPokeTester(c) {
 object CounterMain {
   def main(args: Array[String]): Unit = {
     if (args.size > 0) {
-      if (!Driver(() => new Counter(), "firrtl")(c => new CounterTest(c))) System.exit(1)
+      if (!Driver(() => new Counter(), "firrtl")(c => new CounterTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Counter(), "./test_run_dir/playground.Counter/Counter")(c => new CounterTest(c))) System.exit(1)
+      if (!Driver.run(() => new Counter(), "./test_run_dir/playground.Counter/Counter")(c => new CounterTests(c))) System.exit(1)
     }
   }
 }
