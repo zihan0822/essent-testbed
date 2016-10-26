@@ -12,8 +12,7 @@ object EssentBackend {
     val circuit = chisel3.Driver.elaborate(dutGen)
     // parse firrtl
     val chirrtl = firrtl.Parser.parse(chisel3.Driver.emit(circuit))
-    // TODO: get correct top module
-    val dut = circuit.components(0).id.asInstanceOf[T]
+    val dut = (circuit.components find (_.name == circuit.name)).get.id.asInstanceOf[T]
     // make output directory
     val dir = new File(s"my_run_dir/${dut.getClass.getName}"); dir.mkdirs()
     val buildDir = dir.getAbsolutePath
