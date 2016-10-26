@@ -10,3 +10,6 @@
 [submodule "firrtl-interpreter"]
 	path = firrtl-interpreter
 	url = git@github.com:ucb-bar/firrtl-interpreter.git
+[submodule "essent"]
+	path = essent
+	url = git@socks.lbl.gov:sbeamer/essent.git
