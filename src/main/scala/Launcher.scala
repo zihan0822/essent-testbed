@@ -43,6 +43,8 @@ object Launcher {
       EssentBackend.buildAndRun(() => new RealGCD2())(c => new GCDPeekPokeTester(c))
     case "SingleEvenFilter" =>
       EssentBackend.buildAndRun(() => new SingleEvenFilter(UInt(width = 16)))(c => new SingleEvenFilterTests(c))
+    case "SIntLit" =>
+      EssentBackend.buildAndRun(() => new SIntLit(16))(c => new SIntLitTests(c))
     case "SoloReg" =>
       EssentBackend.buildAndRun(() => new SoloReg())(c => new SoloRegTests(c))
     case "VecShiftRegister" =>
