@@ -4,7 +4,7 @@ import chisel3._
 import Chisel.iotesters.{PeekPokeTester, Driver}
 import essent._
 
-import java.io.File
+import java.io.{File, FileWriter}
 
 object EssentBackend {
   def buildAndRun[T <: chisel3.Module](dutGen: () => T)(testerGen: T => PeekPokeTester[T]) = {
@@ -17,6 +17,10 @@ object EssentBackend {
     val dir = new File(s"my_run_dir/${dut.getClass.getName}"); dir.mkdirs()
     val buildDir = dir.getAbsolutePath
     val dutName = chirrtl.main
+    // emit .fir file for debugging
+    val firWriter = new FileWriter(new File(buildDir, s"$dutName.fir"))
+    firWriter.write(chirrtl.serialize)
+    firWriter.close
     // generate cpp
     essent.Driver.generate(chirrtl, buildDir)
     // compile cpp
