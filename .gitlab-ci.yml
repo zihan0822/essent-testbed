@@ -36,5 +36,5 @@ test:
     # Execute your project's tests
     - git submodule update --init
     - cp chisel-testers/src/main/resources/sim_api.h csrc/
-    - sbt run playground.Launcher all
+    - sbt 'run-main playground.Launcher all'
     
