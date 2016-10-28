@@ -8,6 +8,9 @@ before_script:
   # Enable the usage of sources over https
   - apt-get update -yqq
   - apt-get install apt-transport-https -yqq
+  # Install g++
+  - apt-get install g++ -yqq
+  - g++ --version
   # Add keyserver for SBT
   - echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
   - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
@@ -37,4 +40,3 @@ test:
     - git submodule update --init
     - cp chisel-testers/src/main/resources/sim_api.h csrc/
     - sbt 'run-main playground.Launcher all'
-    
