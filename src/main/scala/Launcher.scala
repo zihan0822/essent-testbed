@@ -6,9 +6,9 @@ object Launcher {
   val allTests = List("Accumulator", "Adder", "Counter", "DynamicMemorySearch",
                       "Hello", "LFSR16", "Max2", "MaxN", "Memo", "Mul", "Mux2",
                       "Mux4", "Mux8", "RealGCD", "RealGCD2", "SingleEvenFilter",
-                      "SoloReg", "VecShiftRegister", "VecShiftRegisterParam",
-                      "VecShiftRegisterSimple", "VendingMachine",
-                      "VendingMachineSwitch")
+                      "SoloReg", "SIntLit", "VecShiftRegister",
+                      "VecShiftRegisterParam", "VecShiftRegisterSimple",
+                      "VendingMachine", "VendingMachineSwitch")
 
   def testDUT(dutName: String): Boolean = dutName match {
     case "Accumulator" =>
@@ -47,6 +47,8 @@ object Launcher {
       EssentBackend.buildAndRun(() => new SIntLit(16))(c => new SIntLitTests(c))
     case "SoloReg" =>
       EssentBackend.buildAndRun(() => new SoloReg())(c => new SoloRegTests(c))
+    case "Stopper" =>
+      EssentBackend.buildAndRun(() => new Stopper())(c => new StopperTests(c))
     case "VecShiftRegister" =>
       EssentBackend.buildAndRun(() => new VecShiftRegister())(c => new VecShiftRegisterTests(c))
     case "VecShiftRegisterParam" =>
