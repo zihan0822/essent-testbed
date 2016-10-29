@@ -2,23 +2,23 @@
 # Official Java image. Look for the different tagged releases at
 # https://hub.docker.com/r/library/java/tags/ . A Java image is not required
 # but an image with a JVM speeds up the build a bit.
-image: java:8
+image: socks.lbl.gov:4567/sbeamer/playground:latest
 
 before_script:
   # Enable the usage of sources over https
-  - apt-get update -yqq
-  - apt-get install apt-transport-https -yqq
+  # - apt-get update -yqq
+  # - apt-get install apt-transport-https -yqq
   # Install g++
-  - apt-get install g++ -yqq
-  - g++ --version
+  # - apt-get install g++ -yqq
+  # - g++ --version
   # Add keyserver for SBT
-  - echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
-  - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+  # - echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
+  # - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
   # Install SBT
-  - apt-get update -yqq
-  - apt-get install sbt -yqq
+  # - apt-get update -yqq
+  # - apt-get install sbt -yqq
   # Log the sbt version
-  - sbt sbt-version
+  # - sbt sbt-version
   # Install ssh-agent if not already installed, it is required by Docker.
   # (change apt-get to yum if you use a CentOS-based image)
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
