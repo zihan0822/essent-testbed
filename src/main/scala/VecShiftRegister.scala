@@ -1,16 +1,16 @@
 package playground
 
-import Chisel._
+import chisel3._
 import Chisel.iotesters.{PeekPokeTester, Driver}
 
 
 class VecShiftRegister extends Module {
-  val io = new Bundle {
-    val ins   = Vec(4, UInt(INPUT, 4))
-    val load  = Bool(INPUT)
-    val shift = Bool(INPUT)
-    val out   = UInt(OUTPUT, 4)
-  }
+  val io = IO(new Bundle {
+    val ins   = Input(Vec(4, UInt(width = 4)))
+    val load  = Input(Bool())
+    val shift = Input(Bool())
+    val out   = Output(UInt(width = 4))
+  })
   val delays = Reg(Vec(4, UInt()))
   when (io.load) {
     delays(0) := io.ins(0)

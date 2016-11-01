@@ -1,16 +1,17 @@
 package playground
 
-import Chisel._
+import chisel3._
+import chisel3.util._
 import Chisel.iotesters.{PeekPokeTester, Driver}
 import scala.collection.mutable.ArrayBuffer
 
 
 class Mul extends Module {
-  val io = new Bundle {
-    val x   = UInt(INPUT,  4)
-    val y   = UInt(INPUT,  4)
-    val z   = UInt(OUTPUT, 8)
-  }
+  val io = IO(new Bundle {
+    val x   = Input(UInt(width = 4))
+    val y   = Input(UInt(width = 4))
+    val z   = Output(UInt(width = 8))
+  })
   val muls = new ArrayBuffer[UInt]()
 
   // -------------------------------- \\

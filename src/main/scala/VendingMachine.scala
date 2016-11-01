@@ -1,14 +1,16 @@
 package playground
 
-import Chisel._
+import chisel3._
+import chisel3.util.Enum
 import Chisel.iotesters.{PeekPokeTester, Driver}
 
 
 class VendingMachine extends Module {
-  val io = new Bundle {
-    val nickel = Bool(INPUT)
-    val dime   = Bool(INPUT)
-    val valid  = Bool(OUTPUT) }
+  val io = IO(new Bundle {
+    val nickel = Input(Bool())
+    val dime   = Input(Bool())
+    val valid  = Output(Bool())
+  })
   val sIdle :: s5 :: s10 :: s15 :: sOk :: Nil = 
     Enum(UInt(), 5)
   val state = Reg(init=sIdle)

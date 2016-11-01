@@ -1,6 +1,7 @@
 package playground
 
-import Chisel._
+import chisel3._
+import chisel3.util._
 import Chisel.iotesters.{PeekPokeTester, Driver}
 
 class RealGCDInput extends Bundle {
@@ -9,10 +10,10 @@ class RealGCDInput extends Bundle {
 }
 
 class RealGCD extends Module {
-  val io  = new Bundle {
-    val in  = Decoupled(new RealGCDInput()).flip()
-    val out = Valid(Bits(width = 16))
-  }
+  val io  = IO(new Bundle {
+    val in  = DeqIO(new RealGCDInput())
+    val out = Output(Valid(UInt(width = 16)))
+  })
 
   val rA = Reg(UInt())
   val rB = Reg(init=UInt(0))

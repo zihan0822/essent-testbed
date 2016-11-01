@@ -1,16 +1,16 @@
 // See LICENSE.txt for license details.
 package playground
 
-import Chisel._
+import chisel3._
 import Chisel.iotesters.{PeekPokeTester, Driver}
 
 
 class SoloReg extends Module {
-  val io = new Bundle {
-    val en = Bool(INPUT)
-    val in = UInt(INPUT, 8)
-    val out = UInt(OUTPUT, 8)
-  }
+  val io = IO(new Bundle {
+    val en = Input(Bool())
+    val in = Input(UInt(width = 8))
+    val out = Output(UInt(width = 8))
+  })
   val r = Reg(init=UInt(0))
   when(io.en) { r := io.in }
   io.out := r

@@ -1,6 +1,6 @@
 package playground
 
-import Chisel._
+import chisel3._
 
 object Launcher {
   val allTests = List("Accumulator", "Adder", "Counter", "DynamicMemorySearch",

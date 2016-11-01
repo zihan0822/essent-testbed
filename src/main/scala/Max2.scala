@@ -1,15 +1,15 @@
 package playground
 
-import Chisel._
+import chisel3._
 import Chisel.iotesters.{PeekPokeTester, Driver}
 
 
 class Max2 extends Module {
-  val io = new Bundle {
-    val in0 = UInt(INPUT,  8)
-    val in1 = UInt(INPUT,  8)
-    val out = UInt(OUTPUT, 8)
-  }
+  val io = IO(new Bundle {
+    val in0 = Input(UInt(width = 8))
+    val in1 = Input(UInt(width = 8))
+    val out = Output(UInt(width = 8))
+  })
   io.out := Mux(io.in0 > io.in1, io.in0, io.in1)
 }
 

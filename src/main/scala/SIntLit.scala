@@ -1,14 +1,14 @@
 package playground
 
-import Chisel._
+import chisel3._
 import Chisel.iotesters.{PeekPokeTester, Driver}
 
 
 class SIntLit(val w: Int) extends Module {
-  val io = new Bundle {
-    val in = SInt(INPUT,  w)
-    val out = SInt(OUTPUT, w)
-  }
+  val io = IO(new Bundle {
+    val in = Input(SInt(width = w))
+    val out = Output(SInt(width = w))
+  })
   io.out := SInt(-2, width=w) + io.in
 }
 

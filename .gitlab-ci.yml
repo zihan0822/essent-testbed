@@ -36,7 +36,10 @@ before_script:
 
 test:
   script:
-    # Execute your project's tests
     - git submodule update --init
+    # Build firrtl.jar for chisel
+    - cd firrtl; sbt publish-local; cd ../
+    # Copy over harness for verilator
     - cp chisel-testers/src/main/resources/sim_api.h csrc/
+    # Actually run tests
     - sbt 'run-main playground.Launcher all'

@@ -1,18 +1,18 @@
 package playground
 
-import Chisel._
+import chisel3._
 import Chisel.iotesters.{PeekPokeTester, Driver}
 
 
 class Mux4 extends Module {
-  val io = new Bundle {
-    val in0 = UInt(INPUT,  1)
-    val in1 = UInt(INPUT,  1)
-    val in2 = UInt(INPUT,  1)
-    val in3 = UInt(INPUT,  1)
-    val sel = UInt(INPUT,  2)
-    val out = UInt(OUTPUT, 1)
-  }
+  val io = IO(new Bundle {
+    val in0 = Input(UInt(width = 1))
+    val in1 = Input(UInt(width = 1))
+    val in2 = Input(UInt(width = 1))
+    val in3 = Input(UInt(width = 1))
+    val sel = Input(UInt(width = 2))
+    val out = Output(UInt(width = 1))
+  })
 
   //-------------------------------------------------------------------------\\
 
