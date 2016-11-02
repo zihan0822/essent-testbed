@@ -15,6 +15,8 @@ object Launcher {
       EssentBackend.buildAndRun(() => new Accumulator())(c => new AccumulatorTests(c))
     case "Adder" =>
       EssentBackend.buildAndRun(() => new Adder(16))(c => new AdderTests(c))
+    case "BigUInt" =>
+      EssentBackend.buildAndRun(() => new BigUInt(128))(c => new BigUIntTests(c))
     case "Counter" =>
       EssentBackend.buildAndRun(() => new Counter())(c => new CounterTests(c))
     case "DynamicMemorySearch" =>
