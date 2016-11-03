@@ -13,9 +13,11 @@ class BigUInt(val w: Int) extends Module {
     val inB = Input(UInt(width = w))
     val outPassA = Output(UInt(width = w))
     val outACatB = Output(UInt(width = w+w))
+    val outAPlusB = Output(UInt(width = w+1))
   })
   io.outPassA := io.inA
   io.outACatB := Cat(io.inA, io.inB)
+  io.outAPlusB := io.inA + io.inB
 }
 
 class BigUIntTests(c: BigUInt) extends PeekPokeTester(c) {
@@ -26,6 +28,7 @@ class BigUIntTests(c: BigUInt) extends PeekPokeTester(c) {
     poke(c.io.inB, b)
     expect(c.io.outPassA, a)
     expect(c.io.outACatB, (a << c.w) | b)
+    expect(c.io.outAPlusB, a + b)
     step(1)
   }
 }
