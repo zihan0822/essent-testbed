@@ -3,12 +3,13 @@ package playground
 import chisel3._
 
 object Launcher {
-  val allTests = List("Accumulator", "Adder", "Counter", "DynamicMemorySearch",
-                      "Hello", "LFSR16", "Max2", "MaxN", "Memo", "Mul", "Mux2",
-                      "Mux4", "Mux8", "RealGCD", "RealGCD2", "SingleEvenFilter",
-                      "SoloReg", "SIntLit", "VecShiftRegister",
-                      "VecShiftRegisterParam", "VecShiftRegisterSimple",
-                      "VendingMachine", "VendingMachineSwitch")
+  val allTests = List("Accumulator", "Adder", "BigUInt", "Counter",
+                      "DynamicMemorySearch", "Hello", "LFSR16", "Max2", "MaxN",
+                      "Memo", "Mul", "Mux2", "Mux4", "Mux8", "RealGCD",
+                      "RealGCD2", "SingleEvenFilter", "SoloReg", "SIntLit",
+                      "VecShiftRegister", "VecShiftRegisterParam",
+                      "VecShiftRegisterSimple", "VendingMachine",
+                      "VendingMachineSwitch")
 
   def testDUT(dutName: String): Boolean = dutName match {
     case "Accumulator" =>
