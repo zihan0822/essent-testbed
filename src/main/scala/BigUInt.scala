@@ -1,6 +1,7 @@
 package playground
 
 import chisel3._
+import chisel3.util._
 import Chisel.iotesters.{PeekPokeTester, Driver}
 
 import scala.math.BigInt
@@ -8,17 +9,23 @@ import scala.util.Random
 
 class BigUInt(val w: Int) extends Module {
   val io = IO(new Bundle {
-    val in = Input(UInt(width = w))
-    val out = Output(UInt(width = w))
+    val inA = Input(UInt(width = w))
+    val inB = Input(UInt(width = w))
+    val outPassA = Output(UInt(width = w))
+    val outACatB = Output(UInt(width = w+w))
   })
-  io.out := io.in
+  io.outPassA := io.inA
+  io.outACatB := Cat(io.inA, io.inB)
 }
 
 class BigUIntTests(c: BigUInt) extends PeekPokeTester(c) {
   for (i <- 0 until 4) {
     val a = BigInt(c.w, Random)
-    poke(c.io.in, a)
-    expect(c.io.out, a)
+    val b = BigInt(c.w, Random)
+    poke(c.io.inA, a)
+    poke(c.io.inB, b)
+    expect(c.io.outPassA, a)
+    expect(c.io.outACatB, (a << c.w) | b)
     step(1)
   }
 }
