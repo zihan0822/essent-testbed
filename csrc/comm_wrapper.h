@@ -8,6 +8,11 @@
 #include "sim_api.h"
 
 
+mpz_class fromUInt(uint64_t x) {
+  return mpz_class(static_cast<unsigned long>(x));
+}
+
+
 class sig_wrapper_t {
 public:
   sig_wrapper_t() {}
@@ -52,10 +57,6 @@ public:
 private:
   mpz_class *bi_;
   const int bit_width_;
-
-  mpz_class fromUInt(uint64_t x) {
-    return mpz_class(static_cast<unsigned long>(x));
-  }
 };
 
 
