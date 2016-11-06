@@ -18,6 +18,24 @@ void handle_sigterm(int sig) {
   dtm->stop();
 }
 
+int tick_dtm(TestHarness *tile) {
+  dtm_t::resp resp_bits;
+  resp_bits.resp = tile->SimDTM_1.debug_resp_bits_resp;
+  resp_bits.data = tile->SimDTM_1.debug_resp_bits_data;
+
+  dtm->tick(tile->SimDTM_1.debug_req_ready,
+            tile->SimDTM_1.debug_resp_valid,
+            resp_bits);
+
+  tile->SimDTM_1.debug_resp_ready = dtm->resp_ready();
+  tile->SimDTM_1.debug_req_valid = dtm->req_valid();
+  tile->SimDTM_1.debug_req_bits_addr = dtm->req_bits().addr;
+  tile->SimDTM_1.debug_req_bits_op = dtm->req_bits().op;
+  tile->SimDTM_1.debug_req_bits_data = dtm->req_bits().data;
+
+  return dtm->done() ? (dtm->exit_code() << 1 | 1) : 0;
+}
+
 int main(int argc, char** argv) {
   unsigned random_seed = (unsigned)time(NULL) ^ (unsigned)getpid();
   uint64_t max_cycles = -1;
@@ -57,6 +75,7 @@ int main(int argc, char** argv) {
   done_reset = true;
 
   while (!dtm->done() && !tile->io_success && trace_count < max_cycles) {
+    tick_dtm(tile);
     tile->eval(true);
     trace_count++;
   }
