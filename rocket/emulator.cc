@@ -78,6 +78,7 @@ int main(int argc, char** argv) {
   printf("<>initialized\n");
 
   done_reset = false;
+  tile->eval(false);
   // reset for several cycles to handle pipelined reset
   for (int i = 0; i < 10; i++) {
     printf("<>reset %d\n", i);
