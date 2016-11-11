@@ -24,8 +24,6 @@ int tick_dtm(TestHarness *tile) {
     resp_bits.resp = tile->SimDTM_1.debug_resp_bits_resp;
     resp_bits.data = tile->SimDTM_1.debug_resp_bits_data;
 
-    printf("%d %d %d\n", tile->SimDTM_1.debug_req_ready, tile->SimDTM_1.debug_resp_valid, resp_bits.resp);
-
     dtm->tick(tile->SimDTM_1.debug_req_ready,
               tile->SimDTM_1.debug_resp_valid,
               resp_bits);
@@ -35,6 +33,14 @@ int tick_dtm(TestHarness *tile) {
     tile->SimDTM_1.debug_req_bits_addr = dtm->req_bits().addr;
     tile->SimDTM_1.debug_req_bits_op = dtm->req_bits().op;
     tile->SimDTM_1.debug_req_bits_data = dtm->req_bits().data;
+
+    PRINT_SIG(tile->SimDTM_1.debug_req_ready);
+    PRINT_SIG(tile->SimDTM_1.debug_req_valid);
+    PRINT_SIG(tile->SimDTM_1.debug_req_bits_op);
+    PRINT_SIG(tile->SimDTM_1.debug_resp_ready);
+    PRINT_SIG(tile->SimDTM_1.debug_resp_valid);
+    PRINT_SIG(tile->SimDTM_1.debug_resp_bits_resp);
+    PRINT_SIG(tile->SimDTM_1.debug_resp_bits_data);
   } else {
     tile->SimDTM_1.debug_req_valid = 0;
     tile->SimDTM_1.debug_resp_ready = 0;
@@ -78,22 +84,25 @@ int main(int argc, char** argv) {
   printf("<>initialized\n");
 
   done_reset = false;
+  tile->reset = 1;
+  tick_dtm(tile);
   tile->eval(false);
   // reset for several cycles to handle pipelined reset
   for (int i = 0; i < 10; i++) {
     printf("<>reset %d\n", i);
-    tile->reset = 1;
     tile->eval(true);
-    tile->reset = 0;
-    tile->eval(true);
+    tick_dtm(tile);
   }
+  tile->reset = 0;
+  tile->eval(false);
+  tick_dtm(tile);
   done_reset = true;
 
   printf("<>reset done\n");
 
   while (!dtm->done() && !tile->io_success && trace_count < max_cycles) {
-    tick_dtm(tile);
     tile->eval(true);
+    tick_dtm(tile);
     trace_count++;
   }
 
