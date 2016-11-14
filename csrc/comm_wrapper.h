@@ -14,7 +14,7 @@ mpz_class fromUInt(uint64_t x) {
   return mpz_class(static_cast<unsigned long>(x));
 }
 
-bool verbose = false;
+bool verbose = true;
 bool done_reset = true;
 
 class sig_wrapper_t {

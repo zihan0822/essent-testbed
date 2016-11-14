@@ -56,6 +56,7 @@ int main(int argc, char** argv) {
   uint64_t start = 0;
   int ret = 0;
   bool print_cycles = false;
+  verbose = false;
 
   for (int i = 1; i < argc; i++) {
     std::string arg = argv[i];
