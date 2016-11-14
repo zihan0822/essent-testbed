@@ -7,7 +7,7 @@
 
 #include "sim_api.h"
 
-#define PRINT_SIG(sig_name) printf("%s %llx\n", #sig_name, sig_name)
+#define PRINT_SIG(sig_name) printf("%s %0llx\n", #sig_name, sig_name)
 
 
 mpz_class fromUInt(uint64_t x) {
