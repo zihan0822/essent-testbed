@@ -18,11 +18,11 @@ void handle_sigterm(int sig) {
   dtm->stop();
 }
 
-int tick_dtm(TestHarness *tile) {
+void tick_dtm(TestHarness *tile) {
   if (done_reset) {
     dtm_t::resp resp_bits;
-    resp_bits.resp = tile->SimDTM_1.debug_resp_bits_resp;
-    resp_bits.data = tile->SimDTM_1.debug_resp_bits_data;
+    resp_bits.resp = tile->SimDTM_1.debug_resp_bits_resp & 0x3;
+    resp_bits.data = tile->SimDTM_1.debug_resp_bits_data & 0x00000003ffffffffl;
 
     dtm->tick(tile->SimDTM_1.debug_req_ready,
               tile->SimDTM_1.debug_resp_valid,
@@ -34,19 +34,20 @@ int tick_dtm(TestHarness *tile) {
     tile->SimDTM_1.debug_req_bits_op = dtm->req_bits().op;
     tile->SimDTM_1.debug_req_bits_data = dtm->req_bits().data;
 
-    PRINT_SIG(tile->SimDTM_1.debug_req_ready);
-    PRINT_SIG(tile->SimDTM_1.debug_req_valid);
-    PRINT_SIG(tile->SimDTM_1.debug_req_bits_op);
-    PRINT_SIG(tile->SimDTM_1.debug_resp_ready);
-    PRINT_SIG(tile->SimDTM_1.debug_resp_valid);
-    PRINT_SIG(tile->SimDTM_1.debug_resp_bits_resp);
-    PRINT_SIG(tile->SimDTM_1.debug_resp_bits_data);
+    tile->SimDTM_1.exit = dtm->done() ? (dtm->exit_code() << 1 | 1) : 0;
+
+    // PRINT_SIG(tile->SimDTM_1.debug_req_ready);
+    // PRINT_SIG(tile->SimDTM_1.debug_req_valid);
+    // PRINT_SIG(tile->SimDTM_1.debug_req_bits_op);
+    // PRINT_SIG(tile->SimDTM_1.debug_resp_ready);
+    // PRINT_SIG(tile->SimDTM_1.debug_resp_valid);
+    // PRINT_SIG(tile->SimDTM_1.debug_resp_bits_resp);
+    // PRINT_SIG(tile->SimDTM_1.debug_resp_bits_data);
   } else {
     tile->SimDTM_1.debug_req_valid = 0;
     tile->SimDTM_1.debug_resp_ready = 0;
     tile->SimDTM_1.exit = 0;
   }
-  return dtm->done() ? (dtm->exit_code() << 1 | 1) : 0;
 }
 
 int main(int argc, char** argv) {
@@ -70,8 +71,6 @@ int main(int argc, char** argv) {
       print_cycles = true;
   }
 
-  printf("<>args read\n");
-
   srand(random_seed);
   srand48(random_seed);
 
@@ -81,15 +80,12 @@ int main(int argc, char** argv) {
 
   signal(SIGTERM, handle_sigterm);
 
-  printf("<>initialized\n");
-
   done_reset = false;
   tile->reset = 1;
   tick_dtm(tile);
   tile->eval(false);
   // reset for several cycles to handle pipelined reset
   for (int i = 0; i < 10; i++) {
-    printf("<>reset %d\n", i);
     tile->eval(true);
     tick_dtm(tile);
   }
@@ -98,8 +94,6 @@ int main(int argc, char** argv) {
   tick_dtm(tile);
   done_reset = true;
 
-  printf("<>reset done\n");
-
   while (!dtm->done() && !tile->io_success && trace_count < max_cycles) {
     tile->eval(true);
     tick_dtm(tile);
@@ -107,16 +101,17 @@ int main(int argc, char** argv) {
   }
 
   if (dtm->exit_code()) {
-    fprintf(stderr, "*** FAILED *** (code = %d, seed %d) after %ld cycles\n", dtm->exit_code(), random_seed, trace_count);
+    fprintf(stderr, "*** FAILED *** (code = %d, seed %d) after %llu cycles\n", dtm->exit_code(), random_seed, trace_count);
     ret = dtm->exit_code();
   } else if (trace_count == max_cycles) {
-    fprintf(stderr, "*** FAILED *** (timeout, seed %d) after %ld cycles\n", random_seed, trace_count);
+    fprintf(stderr, "*** FAILED *** (timeout, seed %d) after %llu cycles\n", random_seed, trace_count);
     ret = 2;
   } else if (verbose || print_cycles) {
-    fprintf(stderr, "Completed after %ld cycles\n", trace_count);
+    fprintf(stderr, "Completed after %llu cycles\n", trace_count);
   }
 
   delete tile;
+  delete dtm;
 
   return ret;
 }
