@@ -11,14 +11,12 @@
 
 dtm_t* dtm;
 static uint64_t trace_count = 0;
-// extern bool verbose;
-// extern bool done_reset;
 
 void handle_sigterm(int sig) {
   dtm->stop();
 }
 
-void tick_dtm(TestHarness *tile) {
+void tick_dtm(TestHarness *tile, bool done_reset) {
   if (done_reset) {
     dtm_t::resp resp_bits;
     resp_bits.resp = tile->SimDTM_1.debug_resp_bits_resp & 0x3;
@@ -56,7 +54,8 @@ int main(int argc, char** argv) {
   uint64_t start = 0;
   int ret = 0;
   bool print_cycles = false;
-  verbose = false;
+  bool verbose = false;
+  bool done_reset = false;
 
   for (int i = 1; i < argc; i++) {
     std::string arg = argv[i];
@@ -81,23 +80,22 @@ int main(int argc, char** argv) {
 
   signal(SIGTERM, handle_sigterm);
 
-  done_reset = false;
   tile->reset = 1;
-  tick_dtm(tile);
-  tile->eval(false);
+  tick_dtm(tile, done_reset);
+  tile->eval(false, verbose, done_reset);
   // reset for several cycles to handle pipelined reset
   for (int i = 0; i < 10; i++) {
-    tile->eval(true);
-    tick_dtm(tile);
+    tile->eval(true, verbose, done_reset);
+    tick_dtm(tile, done_reset);
   }
   tile->reset = 0;
-  tile->eval(false);
-  tick_dtm(tile);
+  tile->eval(false, verbose, done_reset);
+  tick_dtm(tile, done_reset);
   done_reset = true;
 
   while (!dtm->done() && !tile->io_success && trace_count < max_cycles) {
-    tile->eval(true);
-    tick_dtm(tile);
+    tile->eval(true, verbose, done_reset);
+    tick_dtm(tile, done_reset);
     trace_count++;
   }
 

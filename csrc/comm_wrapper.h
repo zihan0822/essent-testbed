@@ -14,8 +14,6 @@ mpz_class fromUInt(uint64_t x) {
   return mpz_class(static_cast<unsigned long>(x));
 }
 
-bool verbose = true;
-bool done_reset = true;
 
 class sig_wrapper_t {
 public:
@@ -134,11 +132,11 @@ private:
   }
 
   virtual void step() {
-    dut_.eval(true);
+    dut_.eval(true, true, true);
   }
 
   virtual void update() {
-    dut_.eval(false);
+    dut_.eval(false, true, true);
   }
 
   virtual size_t put_value(sig_wrapper_t*& sig, uint64_t* data,
