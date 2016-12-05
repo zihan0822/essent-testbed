@@ -100,13 +100,13 @@ int main(int argc, char** argv) {
   }
 
   if (dtm->exit_code()) {
-    fprintf(stderr, "*** FAILED *** (code = %d, seed %d) after %llu cycles\n", dtm->exit_code(), random_seed, trace_count);
+    fprintf(stderr, "*** FAILED *** (code = %d, seed %d) after %" PRIu64 " cycles\n", dtm->exit_code(), random_seed, trace_count);
     ret = dtm->exit_code();
   } else if (trace_count == max_cycles) {
-    fprintf(stderr, "*** FAILED *** (timeout, seed %d) after %llu cycles\n", random_seed, trace_count);
+    fprintf(stderr, "*** FAILED *** (timeout, seed %d) after %" PRIu64 " cycles\n", random_seed, trace_count);
     ret = 2;
   } else if (verbose || print_cycles) {
-    fprintf(stderr, "Completed after %llu cycles\n", trace_count);
+    fprintf(stderr, "Completed after %" PRIu64 " cycles\n", trace_count);
   }
 
   delete tile;
