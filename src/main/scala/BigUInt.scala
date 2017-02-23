@@ -17,8 +17,8 @@ class BigUInt(val w: Int) extends Module {
     val outAPlusB = Output(UInt(width = w))
     // val outASubB = Output(SInt(width = w+1))
     val outAMulB = Output(UInt(width = w+w))
-    val outADivB = Output(UInt(width = w))
-    val outARemB = Output(UInt(width = w))
+    // val outADivB = Output(UInt(width = w))
+    // val outARemB = Output(UInt(width = w))
     val outALtB = Output(UInt(width = 1))
     val outALeqB = Output(UInt(width = 1))
     val outAGtB = Output(UInt(width = 1))
@@ -40,8 +40,8 @@ class BigUInt(val w: Int) extends Module {
   io.outAPlusB := io.inA + io.inB
   // io.outASubB := io.inA.asSInt - io.inB.asSInt
   io.outAMulB := io.inA * io.inB
-  io.outADivB := io.inA / io.inB
-  io.outARemB := io.inA % io.inB
+  // io.outADivB := io.inA / io.inB
+  // io.outARemB := io.inA % io.inB
   io.outALtB := io.inA < io.inB
   io.outALeqB := io.inA <= io.inB
   io.outAGtB := io.inA > io.inB
@@ -72,8 +72,8 @@ class BigUIntTests(c: BigUInt) extends PeekPokeTester(c) {
     expect(c.io.outAPlusB, (a + b) & mask)
     // expect(c.io.outASubB, a - b)
     expect(c.io.outAMulB, a * b)
-    expect(c.io.outADivB, a / b)
-    expect(c.io.outARemB, a % b)
+    // expect(c.io.outADivB, a / b)
+    // expect(c.io.outARemB, a % b)
     expect(c.io.outALtB, a < b)
     expect(c.io.outALeqB, a <= b)
     expect(c.io.outAGtB, a > b)
