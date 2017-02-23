@@ -72,11 +72,11 @@ public:
   virtual size_t get_num_words() { return (w+63) / 64; }
   virtual size_t get_value(uint64_t* values) {
     ui_ptr_->raw_copy_out(values);
-    return 1;
+    return get_num_words();
   }
   virtual size_t put_value(uint64_t* values) {
     ui_ptr_->raw_copy_in(values);
-    return 1;
+    return get_num_words();
   }
 private:
   UInt<w> *ui_ptr_;
