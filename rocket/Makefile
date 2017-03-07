@@ -1,8 +1,8 @@
 CFLAGS = -O3 -std=c++11
 
-INCLUDES = -I../csrc -I/home/sbeamer/riscv/include
+INCLUDES = -I../csrc -I$(RISCV)/include -I../../big-sig
 
-LIBS = -lgmpxx -lgmp -L/home/sbeamer/riscv/lib -Wl,-rpath,/home/sbeamer/riscv/lib -lfesvr -lpthread
+LIBS = -lgmpxx -lgmp -L$(RISCV)/lib -Wl,-rpath,$(RISCV)/lib -lfesvr -lpthread
 
 TestHarness.h:
 	cd ../essent; sbt 'run ../rocket/TestHarness.DefaultConfig.fir'

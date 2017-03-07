@@ -17,35 +17,36 @@ void handle_sigterm(int sig) {
 }
 
 void tick_dtm(TestHarness *tile, bool done_reset) {
+  // PRINT_SIG(tile->SimDTM_1.debug_req_ready);
+  // PRINT_SIG(tile->SimDTM_1.debug_resp_valid);
+  // PRINT_SIG(tile->SimDTM_1.debug_resp_bits_resp);
+  // PRINT_SIG(tile->SimDTM_1.debug_resp_bits_data);
   if (done_reset) {
     dtm_t::resp resp_bits;
-    resp_bits.resp = tile->SimDTM_1.debug_resp_bits_resp & 0x3;
-    resp_bits.data = tile->SimDTM_1.debug_resp_bits_data & 0x00000003ffffffffl;
+    resp_bits.resp = tile->SimDTM_1.debug_resp_bits_resp.as_single_word();
+    resp_bits.data = tile->SimDTM_1.debug_resp_bits_data.as_single_word();
 
-    dtm->tick(tile->SimDTM_1.debug_req_ready,
-              tile->SimDTM_1.debug_resp_valid,
+    dtm->tick(tile->SimDTM_1.debug_req_ready.as_single_word(),
+              tile->SimDTM_1.debug_resp_valid.as_single_word(),
               resp_bits);
 
-    tile->SimDTM_1.debug_resp_ready = dtm->resp_ready();
-    tile->SimDTM_1.debug_req_valid = dtm->req_valid();
-    tile->SimDTM_1.debug_req_bits_addr = dtm->req_bits().addr;
-    tile->SimDTM_1.debug_req_bits_op = dtm->req_bits().op;
-    tile->SimDTM_1.debug_req_bits_data = dtm->req_bits().data;
+    tile->SimDTM_1.debug_resp_ready = UInt<1>(dtm->resp_ready());
+    tile->SimDTM_1.debug_req_valid = UInt<1>(dtm->req_valid());
+    tile->SimDTM_1.debug_req_bits_addr = UInt<5>(dtm->req_bits().addr);
+    tile->SimDTM_1.debug_req_bits_op = UInt<2>(dtm->req_bits().op);
+    tile->SimDTM_1.debug_req_bits_data = UInt<34>(dtm->req_bits().data);
 
-    tile->SimDTM_1.exit = dtm->done() ? (dtm->exit_code() << 1 | 1) : 0;
-
-    // PRINT_SIG(tile->SimDTM_1.debug_req_ready);
-    // PRINT_SIG(tile->SimDTM_1.debug_req_valid);
-    // PRINT_SIG(tile->SimDTM_1.debug_req_bits_op);
-    // PRINT_SIG(tile->SimDTM_1.debug_resp_ready);
-    // PRINT_SIG(tile->SimDTM_1.debug_resp_valid);
-    // PRINT_SIG(tile->SimDTM_1.debug_resp_bits_resp);
-    // PRINT_SIG(tile->SimDTM_1.debug_resp_bits_data);
+    tile->SimDTM_1.exit = UInt<32>(dtm->done() ? (dtm->exit_code() << 1 | 1) : 0);
   } else {
-    tile->SimDTM_1.debug_req_valid = 0;
-    tile->SimDTM_1.debug_resp_ready = 0;
-    tile->SimDTM_1.exit = 0;
+    tile->SimDTM_1.debug_req_valid = UInt<1>(0);
+    tile->SimDTM_1.debug_resp_ready = UInt<1>(0);
+    tile->SimDTM_1.exit = UInt<32>(0);
   }
+  // PRINT_SIG(tile->SimDTM_1.debug_req_valid);
+  // PRINT_SIG(tile->SimDTM_1.debug_req_bits_addr);
+  // PRINT_SIG(tile->SimDTM_1.debug_req_bits_op);
+  // PRINT_SIG(tile->SimDTM_1.debug_req_bits_data);
+  // PRINT_SIG(tile->SimDTM_1.debug_resp_ready);
 }
 
 int main(int argc, char** argv) {
@@ -80,7 +81,7 @@ int main(int argc, char** argv) {
 
   signal(SIGTERM, handle_sigterm);
 
-  tile->reset = 1;
+  tile->reset = UInt<1>(1);
   tick_dtm(tile, done_reset);
   tile->eval(false, verbose, done_reset);
   // reset for several cycles to handle pipelined reset
@@ -88,7 +89,7 @@ int main(int argc, char** argv) {
     tile->eval(true, verbose, done_reset);
     tick_dtm(tile, done_reset);
   }
-  tile->reset = 0;
+  tile->reset = UInt<1>(0);
   tile->eval(false, verbose, done_reset);
   tick_dtm(tile, done_reset);
   done_reset = true;
