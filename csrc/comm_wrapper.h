@@ -3,18 +3,12 @@
 
 #include <cinttypes>
 #include <string>
-#include <gmpxx.h>
 
 #include "uint.h"
 
 #include "sim_api.h"
 
-// #define PRINT_SIG(sig_name) printf("%s %0llx\n", #sig_name, sig_name)
 #define PRINT_SIG(sig_name) std::cout<< #sig_name << " " << sig_name << std::endl;
-
-mpz_class fromUInt(uint64_t x) {
-  return mpz_class(static_cast<unsigned long>(x));
-}
 
 
 class sig_wrapper_t {
@@ -33,34 +27,6 @@ public:
   }
 private:
   uint64_t *x_;
-};
-
-class big_wrapper_t : public sig_wrapper_t {
-public:
-  big_wrapper_t(mpz_class *bi, int bit_width) : bi_(bi),
-    bit_width_(bit_width) {}
-
-  virtual size_t get_num_words() const { return (bit_width_ + 64 - 1) / 64; }
-  virtual size_t get_value(uint64_t* values) {
-    mpz_class temp = *bi_;
-    for (int i=0; i < get_num_words(); i++) {
-      values[i] = temp.get_ui();
-      temp = temp >> 64;
-    }
-    return get_num_words();
-  }
-  virtual size_t put_value(uint64_t* values) {
-    *bi_ = 0;
-    const int num_words = get_num_words();
-    for (int i=0; i < num_words; i++) {
-      *bi_ = *bi_ << 64;
-      *bi_ = *bi_ + fromUInt(values[num_words-i-1]);
-    }
-    return get_num_words();
-  }
-private:
-  mpz_class *bi_;
-  const int bit_width_;
 };
 
 template<int w>
@@ -129,10 +95,6 @@ public:
     sim_data.inputs.push_back(new sig_wrapper_t(sig_ptr));
   }
 
-  void add_in_signal(mpz_class *sig_ptr, int bit_width) {
-    sim_data.inputs.push_back(new big_wrapper_t(sig_ptr, bit_width));
-  }
-
   template<int w>
   void add_in_signal(UInt<w> *sig_ptr) {
     sim_data.inputs.push_back(new uint_wrapper_t<w>(sig_ptr));
@@ -147,10 +109,6 @@ public:
     sim_data.outputs.push_back(new sig_wrapper_t(sig_ptr));
   }
 
-  void add_out_signal(mpz_class *sig_ptr, int bit_width) {
-    sim_data.outputs.push_back(new big_wrapper_t(sig_ptr, bit_width));
-  }
-
   template<int w>
   void add_out_signal(UInt<w> *sig_ptr) {
     sim_data.outputs.push_back(new uint_wrapper_t<w>(sig_ptr));
@@ -163,10 +121,6 @@ public:
 
   void add_signal(uint64_t *sig_ptr) {
     sim_data.signals.push_back(new sig_wrapper_t(sig_ptr));
-  }
-
-  void add_signal(mpz_class *sig_ptr, int bit_width) {
-    sim_data.signals.push_back(new big_wrapper_t(sig_ptr, bit_width));
   }
 
   template<int w>
