@@ -1,11 +1,11 @@
-CFLAGS = -O3 -std=c++11
+CFLAGS = -O3 -std=c++11 -fbracket-depth=1024
 
 INCLUDES = -I../csrc -I$(RISCV)/include -I../../big-sig
 
 LIBS = -L$(RISCV)/lib -Wl,-rpath,$(RISCV)/lib -lfesvr -lpthread
 
 TestHarness.h:
-	cd ../essent; sbt 'run ../rocket/TestHarness.DefaultConfig.fir'
+	cd ../essent; sbt 'run ../rocket/TestHarness.DefaultConfig.1609.fir'
 
 rocketchip: TestHarness-harness.cc TestHarness.h
 	g++ $(CFLAGS) $(INCLUDES) TestHarness-harness.cc -o rocketchip $(LIBS)
