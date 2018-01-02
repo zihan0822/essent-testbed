@@ -13,6 +13,3 @@
 [submodule "essent"]
 	path = essent
 	url = git@socks.lbl.gov:sbeamer/essent.git
-[submodule "big-sig"]
-	path = big-sig
-	url = git@socks.lbl.gov:sbeamer/big-sig.git
