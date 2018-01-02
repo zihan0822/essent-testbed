@@ -1,6 +1,6 @@
 CFLAGS = -O3 -std=c++11 -fbracket-depth=1024
 
-INCLUDES = -I../csrc -I$(RISCV)/include -I../big-sig
+INCLUDES = -I../csrc -I$(RISCV)/include -I../firrtl-sig
 
 LIBS = -L$(RISCV)/lib -Wl,-rpath,$(RISCV)/lib -lfesvr -lpthread
 
