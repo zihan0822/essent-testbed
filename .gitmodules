@@ -13,3 +13,6 @@
 [submodule "essent"]
 	path = essent
 	url = git@socks.lbl.gov:sbeamer/essent.git
+[submodule "firrtl-sig"]
+	path = firrtl-sig
+	url = git@socks.lbl.gov:sbeamer/firrtl-sig.git
