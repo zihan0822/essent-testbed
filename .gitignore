@@ -2,3 +2,11 @@ target/
 project/project
 project/target
 test_run_dir
+
+rocket/TestHarness-harness.cc
+rocket/TestHarness.h
+rocket/emulator
+rocket/*.riscv
+rocket/riscv_bin
+
+csrc/sim_api.h
