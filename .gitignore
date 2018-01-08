@@ -9,5 +9,6 @@ rocket/TestHarness.h
 rocket/emulator
 rocket/*.riscv
 rocket/riscv_bin
+rocket/old_emulators
 
 csrc/sim_api.h
