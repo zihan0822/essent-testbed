@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "comm_wrapper.h"
 #include "TestHarness.h"
 
 dtm_t* dtm;
