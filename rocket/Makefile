@@ -8,4 +8,4 @@ TestHarness.h:
 	cd ../essent; sbt 'run ../rocket/TestHarness.DefaultConfig.1609.fir'
 
 emulator: emulator.cc TestHarness.h
-	g++ $(CXXFLAGS) $(INCLUDES) emulator.cc -o emulator $(LIBS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) emulator.cc -o emulator $(LIBS)
