@@ -1,45 +1,50 @@
-# This file is a template, and might need editing before it works on your project.
-# Official Java image. Look for the different tagged releases at
-# https://hub.docker.com/r/library/java/tags/ . A Java image is not required
-# but an image with a JVM speeds up the build a bit.
-image: socks.lbl.gov:4567/sbeamer/playground:latest
+image: openjdk:8
 
-before_script:
-  # Enable the usage of sources over https
-  # - apt-get update -yqq
-  # - apt-get install apt-transport-https -yqq
-  # Install g++
-  # - apt-get install g++ -yqq
-  # - g++ --version
-  # Add keyserver for SBT
-  # - echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
-  # - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
-  # Install SBT
-  # - apt-get update -yqq
-  # - apt-get install sbt -yqq
-  # Log the sbt version
-  # - sbt sbt-version
-  # Install ssh-agent if not already installed, it is required by Docker.
-  # (change apt-get to yum if you use a CentOS-based image)
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  # Run ssh-agent (inside the build environment)
-  - eval $(ssh-agent -s)
-  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-  - ssh-add <(echo "$SSH_PRIVATE_KEY")
-  # For Docker builds disable host key checking. Be aware that by adding that
-  # you are suspectible to man-in-the-middle attacks.
-  # WARNING: Use this only with the Docker executor, if you use it with shell
-  # you will overwrite your user's SSH config.
-  - mkdir -p ~/.ssh
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
+build:
+  stage: build
+  before_script:
+    # Enable the usage of sources over https
+    - apt-get update -yqq
+    - apt-get install apt-transport-https -yqq
+    # Install g++
+    - apt-get install g++ -yqq
+    - g++ --version
+    # Add keyserver for SBT
+    - echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
+    - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+    # Install SBT
+    - apt-get update -yqq
+    - apt-get install sbt -yqq
+    # Install make
+    - apt-get install make
+    # Build riscv-fesvr
+    - mkdir riscv
+    - cd riscv; export RISCV=`pwd`; cd ..
+    - git clone https://github.com/riscv/riscv-fesvr.git
+    - cd riscv-fesvr
+    - git checkout 18e712bc9931c49c101d27219f196f499b64c95e
+    - ./configure --prefix=$RISCV
+    - make install
+    - cd ..
+    # Update submodules
+    - git submodule update --init
+    # Prime sbt
+    - cd essent
+    - sbt sbtVersion
+    - cd ..
+  script:
+    - cd rocket
+    - time make emulator
+  artifacts:
+    paths:
+      - rocket/emulator
+      - riscv/
 
 test:
+  stage: test
+  before_script:
+    # Re-establish RISCV variable
+    - cd riscv; export RISCV=`pwd`; cd ..
   script:
-    - git submodule update --init
-    # Build firrtl.jar for chisel
-    - cd firrtl; sbt publish-local; cd ../
-    # Copy over harness for verilator
-    - cp chisel-testers/src/main/resources/sim_api.h csrc/
-    # Actually run tests
-    - sbt 'run-main playground.Launcher all'
+    - cd rocket
+    - time ./emulator +cycle-count ./dhrystone.riscv
