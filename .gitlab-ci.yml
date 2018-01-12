@@ -1,31 +1,12 @@
-image: openjdk:8
+image: socks.lbl.gov:4567/sbeamer/playground:gcc7-fesvr
 
-build:
-  stage: build
+test:
+  stage: test
+  variables:
+    SBT_CACHE_DIR: "sbt-cache/.ivy/cache"
+    SBT_OPTS: "-Dsbt.ivy.home=$SBT_CACHE_DIR"
   before_script:
-    # Enable the usage of sources over https
-    - apt-get update -yqq
-    - apt-get install apt-transport-https -yqq
-    # Install g++
-    - apt-get install g++ -yqq
-    - g++ --version
-    # Add keyserver for SBT
-    - echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
-    - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
-    # Install SBT
-    - apt-get update -yqq
-    - apt-get install sbt -yqq
-    # Install make
-    - apt-get install make
-    # Build riscv-fesvr
-    - mkdir riscv
-    - cd riscv; export RISCV=`pwd`; cd ..
-    - git clone https://github.com/riscv/riscv-fesvr.git
-    - cd riscv-fesvr
-    - git checkout 18e712bc9931c49c101d27219f196f499b64c95e
-    - ./configure --prefix=$RISCV
-    - make install
-    - cd ..
+    ## Get access to internal subrepos via private key
     # Install ssh-agent if not already installed, it is required by Docker.
     # (change apt-get to yum if you use an RPM-based image)
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -41,23 +22,21 @@ build:
     - chmod 644 ~/.ssh/known_hosts
     # Update submodules
     - git submodule update --init
-    # Prime sbt
+    ## Set up sbt
+    # Set up nested cache dir
+    - mkdir -pv $SBT_CACHE_DIR
+    - echo $SBT_OPTS
+    # Make sbt pull things in
     - cd essent
     - sbt sbtVersion
     - cd ..
+    # Setup RISCV (image already has fesvr)
+    - export RISCV=/riscv
   script:
     - cd rocket
-    - time make emulator
-  artifacts:
-    paths:
-      - rocket/emulator
-      - riscv/
-
-test:
-  stage: test
-  before_script:
-    # Re-establish RISCV variable
-    - cd riscv; export RISCV=`pwd`; cd ..
-  script:
-    - cd rocket
+    - time CXX=g++-7 make emulator
     - time ./emulator +cycle-count ./dhrystone.riscv
+  cache:
+    untracked: true
+    paths:
+      - $SBT_CACHE_DIR
