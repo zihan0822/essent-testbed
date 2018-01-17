@@ -34,7 +34,7 @@ test:
     - export RISCV=/riscv
   script:
     - cd rocket
-    - rm TestHarness.h
+    - rm -f TestHarness.h emulator
     - time CXX=g++-7 make emulator
     - time ./emulator +cycle-count ./dhrystone.riscv
   cache:
