@@ -1,5 +1,4 @@
-image: socks.lbl.gov:4567/sbeamer/playground:gcc7-fesvr
-
+image: socks.lbl.gov:4567/sbeamer/playground:gcc7-pk
 test:
   stage: test
   variables:
@@ -37,6 +36,7 @@ test:
     - rm -f TestHarness.h emulator
     - time CXX=g++-7 make emulator
     - time ./emulator +cycle-count ./dhrystone.riscv
+    - time ./emulator +cycle-count +max-cycles=2000000 $RISCV/riscv64-unknown-elf/bin/pk /hello
   cache:
     untracked: true
     paths:
