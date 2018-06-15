@@ -9,3 +9,8 @@ TestHarness.h:
 
 emulator: emulator.cc TestHarness.h
 	$(CXX) $(CXXFLAGS) $(INCLUDES) emulator.cc -o emulator $(LIBS)
+
+INCLUDES_HEAD = -I../csrc -I$(RISCV)-head/include -I../firrtl-sig
+LIBS_HEAD = -L$(RISCV)-head/lib -Wl,-rpath,$(RISCV)-head/lib -lfesvr -lpthread
+emulator-head: emulator-head.cc TestHarness.h
+	$(CXX) $(CXXFLAGS) $(INCLUDES_HEAD) emulator-head.cc -o emulator-head $(LIBS_HEAD)
