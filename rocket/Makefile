@@ -1,4 +1,4 @@
-CXXFLAGS = -O3 -std=c++11 $(CLANG_FLAGS)
+CXXFLAGS = -O3 -std=c++11
 CLANG_FLAGS = -fno-slp-vectorize -fbracket-depth=1024
 
 UNAME_OS := $(shell uname -s)
