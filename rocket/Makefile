@@ -1,4 +1,5 @@
-CXXFLAGS = -O3 -std=c++11
+CLANG_FLAGS = -fno-slp-vectorize -fbracket-depth=1024
+CXXFLAGS = -O3 -std=c++11 $(CLANG_FLAGS)
 
 INCLUDES = -I../csrc -I$(RISCV)/include -I../firrtl-sig
 
