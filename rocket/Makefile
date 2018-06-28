@@ -3,7 +3,7 @@ CLANG_FLAGS = -fno-slp-vectorize -fbracket-depth=1024
 
 UNAME_OS := $(shell uname -s)
 ifeq ($(UNAME_OS),Darwin)
-	CXX += $(CLANG_FLAGS)
+	CXXFLAGS += $(CLANG_FLAGS)
 endif
 
 INCLUDES = -I../csrc -I$(RISCV)/include -I../firrtl-sig
