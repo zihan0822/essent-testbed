@@ -7,8 +7,11 @@ my_run_dir
 rocket/TestHarness-harness.cc
 rocket/TestHarness.h
 rocket/emulator
+rocket/emulator-head
 rocket/*.riscv
 rocket/riscv_bin
 rocket/old_emulators
+rocket/to_del
+rocket/todo
 
 csrc/sim_api.h
