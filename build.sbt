@@ -4,7 +4,7 @@ version := "0.1"
 
 name := "playground"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.12"
 
 scalacOptions ++= Seq("-deprecation", "-unchecked")
 
@@ -17,8 +17,8 @@ lazy val essent = (project in file("essent")).dependsOn(firrtl)
 
 lazy val root = (project in file(".")).dependsOn(chisel, chisel_testers, essent)
 
+libraryDependencies += "com.github.scopt" %% "scopt" % "3.6.0"
 
-resolvers ++= Seq(
-  Resolver.sonatypeRepo("snapshots"),
-  Resolver.sonatypeRepo("releases")
-)
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
+
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
