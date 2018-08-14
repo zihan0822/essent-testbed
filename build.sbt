@@ -4,6 +4,8 @@ version := "0.1"
 
 name := "playground"
 
+mainClass in (Compile, run) := Some("playground.Launcher")
+
 scalaVersion := "2.11.12"
 
 scalacOptions ++= Seq("-deprecation", "-unchecked")

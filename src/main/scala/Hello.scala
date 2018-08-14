@@ -2,7 +2,7 @@
 package playground
 
 import chisel3._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 class Hello extends Module {
   val io = IO(new Bundle {})
