@@ -1,22 +1,22 @@
 package playground
 
 import chisel3._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 
 class SIntLit(val w: Int) extends Module {
   val io = IO(new Bundle {
-    val in = Input(SInt(width = w))
-    val out = Output(SInt(width = w))
+    val in = Input(SInt(w.W))
+    val out = Output(SInt(w.W))
   })
-  io.out := SInt(-2, width=w) + io.in
+  io.out := -2.S(w.W) + io.in
 }
 
 class SIntLitTests(c: SIntLit) extends PeekPokeTester(c) {
   for (i <- 2 until 10) {
     poke(c.io.in, i)
     step(1)
-    expect(c.io.out, SInt(i-2))
+    expect(c.io.out, (i-2).S)
   }
 }
 

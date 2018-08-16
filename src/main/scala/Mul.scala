@@ -2,15 +2,15 @@ package playground
 
 import chisel3._
 import chisel3.util._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 import scala.collection.mutable.ArrayBuffer
 
 
 class Mul extends Module {
   val io = IO(new Bundle {
-    val x   = Input(UInt(width = 4))
-    val y   = Input(UInt(width = 4))
-    val z   = Output(UInt(width = 8))
+    val x   = Input(UInt(4.W))
+    val y   = Input(UInt(4.W))
+    val z   = Output(UInt(8.W))
   })
   val muls = new ArrayBuffer[UInt]()
 
@@ -21,9 +21,9 @@ class Mul extends Module {
   for {
     x <- 0 to 15
     y <- 0 to 15
-  } muls += UInt(x*y, width=8)
+  } muls += (x*y).U(8.W)
 
-  val vec_mapper = Vec(muls)
+  val vec_mapper = VecInit(muls)
   io.z := vec_mapper((Cat(io.x, io.y)))
   // -------------------------------- \\
 }

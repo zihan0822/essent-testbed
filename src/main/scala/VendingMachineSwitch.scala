@@ -2,7 +2,7 @@ package playground
 
 import chisel3._
 import chisel3.util._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 
 class VendingMachineSwitch extends Module {
@@ -11,8 +11,8 @@ class VendingMachineSwitch extends Module {
     val dime   = Input(Bool())
     val valid  = Output(Bool())
   })
-  val s_idle :: s_5 :: s_10 :: s_15 :: s_ok :: Nil = Enum(UInt(), 5)
-  val state = Reg(init = s_idle)
+  val s_idle :: s_5 :: s_10 :: s_15 :: s_ok :: Nil = Enum(5)
+  val state = RegInit(s_idle)
   
   switch (state) {
     is (s_idle) {

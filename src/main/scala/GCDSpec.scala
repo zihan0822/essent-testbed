@@ -2,7 +2,7 @@ package playground
 
 import chisel3._
 import chisel3.util._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 
 object GCDCalculator {
@@ -21,21 +21,21 @@ object RealGCD2 {
 }
 
 class RealGCD2Input extends Bundle {
-  val a = Bits(width = RealGCD2.num_width)
-  val b = Bits(width = RealGCD2.num_width)
+  val a = UInt(RealGCD2.num_width.W)
+  val b = UInt(RealGCD2.num_width.W)
 }
 
 class RealGCD2 extends Module {
   val io  = IO(new Bundle {
     val in  = DeqIO(new RealGCDInput())
-    val out = Output(Valid(UInt(width = 16)))
+    val out = Output(Valid(UInt(16.W)))
   })
 
-  val x = Reg(UInt(width = RealGCD2.num_width))
-  val y = Reg(UInt(width = RealGCD2.num_width))
-  val p = Reg(init=Bool(false))
+  val x = Reg(UInt(RealGCD2.num_width.W))
+  val y = Reg(UInt(RealGCD2.num_width.W))
+  val p = RegInit(false.B)
 
-  val ti = Reg(init=UInt(0, width = RealGCD2.num_width))
+  val ti = RegInit(0.U(RealGCD2.num_width.W))
   ti := ti + UInt(1)
 
   io.in.ready := !p
@@ -43,7 +43,7 @@ class RealGCD2 extends Module {
   when (io.in.valid && !p) {
     x := io.in.bits.a
     y := io.in.bits.b
-    p := Bool(true)
+    p := true.B
   }
 
   when (p) {
@@ -56,9 +56,9 @@ class RealGCD2 extends Module {
   //      ti, x, y, io.in.ready, io.in.valid, io.out.bits, io.out.ready, io.out.valid)
 
   io.out.bits  := x
-  io.out.valid := y === Bits(0) && p
+  io.out.valid := y === 0.U && p
   when (io.out.valid) {
-    p := Bool(false)
+    p := false.B
   }
 }
 

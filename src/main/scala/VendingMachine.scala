@@ -2,7 +2,7 @@ package playground
 
 import chisel3._
 import chisel3.util.Enum
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 
 class VendingMachine extends Module {
@@ -11,9 +11,8 @@ class VendingMachine extends Module {
     val dime   = Input(Bool())
     val valid  = Output(Bool())
   })
-  val sIdle :: s5 :: s10 :: s15 :: sOk :: Nil = 
-    Enum(UInt(), 5)
-  val state = Reg(init=sIdle)
+  val sIdle :: s5 :: s10 :: s15 :: sOk :: Nil = Enum(5)
+  val state = RegInit(sIdle)
 
   // flush it out ...
   when(state === sIdle) {

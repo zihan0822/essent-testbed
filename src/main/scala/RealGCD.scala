@@ -2,38 +2,38 @@ package playground
 
 import chisel3._
 import chisel3.util._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 class RealGCDInput extends Bundle {
-  val a = Bits(width = 16)
-  val b = Bits(width = 16)
+  val a = UInt(16.W)
+  val b = UInt(16.W)
 }
 
 class RealGCD extends Module {
   val io  = IO(new Bundle {
     val in  = DeqIO(new RealGCDInput())
-    val out = Output(Valid(UInt(width = 16)))
+    val out = Output(Valid(UInt(16.W)))
   })
 
   val rA = Reg(UInt())
-  val rB = Reg(init=UInt(0))
-  val busy = Reg(init=Bool(false))
+  val rB = RegInit(0.U)
+  val busy = RegInit(false.B)
 
   when (io.in.valid) {
     rA := io.in.bits.a
     rB := io.in.bits.b
-    busy := Bool(true)
+    busy := true.B
   }
 
-  io.out.valid := Bool(false)
-  when (rB =/= UInt(0)) {
+  io.out.valid := false.B
+  when (rB =/= 0.U) {
     when (rA > rB) {
       rA := rB
       rB := rA - rB
     } .elsewhen (rA === rB) {
-      io.out.valid := Bool(true)
-      busy := Bool(false)
-      rB := UInt(0)
+      io.out.valid := true.B
+      busy := false.B
+      rB := 0.U
     } .otherwise {
       rA := rB
       rB := rA

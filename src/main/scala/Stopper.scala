@@ -1,15 +1,15 @@
 package playground
 
 import chisel3._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 
 class Stopper extends Module {
   val io = IO(new Bundle {
-    val in = Input(UInt(width = 2))
+    val in = Input(UInt(2.W))
   })
-  when (io.in === UInt(2)) {
-    chisel3.core.stop(0)
+  when (io.in === 2.U) {
+    chisel3.core.stop(4)
   }
 }
 

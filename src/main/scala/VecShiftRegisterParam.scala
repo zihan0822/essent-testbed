@@ -1,15 +1,16 @@
 package playground
 
 import chisel3._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 
 class VecShiftRegisterParam(val n: Int, val w: Int) extends Module {
   val io = IO(new Bundle {
-    val in  = Input(UInt(width = w))
-    val out = Output(UInt(width = w))
+    val in  = Input(UInt(w.W))
+    val out = Output(UInt(w.W))
   })
-  val delays = Reg(init = Vec.fill(n)(UInt(0, width = w)))
+  val initValues = Seq.fill(n) { 0.U(w.W) }
+  val delays = RegInit(VecInit(initValues))
   for (i <- n-1 to 1 by -1)
     delays(i) := delays(i-1) 
   delays(0) := io.in
