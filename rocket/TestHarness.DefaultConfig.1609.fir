@@ -3686,7 +3686,7 @@ circuit TestHarness :
       node T_147 = asSInt(T_146) @[multiplier.scala 99:37] 
       node T_148 = asSInt(divisor) @[multiplier.scala 100:26] 
       node T_149 = bits(T_145, 7, 0) @[multiplier.scala 101:22] 
-      node T_150 = mul(T_148, T_149) @[multiplier.scala 101:43] 
+      node T_150 = mul(T_148, asSInt(T_149)) @[multiplier.scala 101:43] 
       node T_151 = add(T_150, T_147) @[multiplier.scala 101:52] 
       node T_152 = tail(T_151, 1) @[multiplier.scala 101:52] 
       node T_153 = asSInt(T_152) @[multiplier.scala 101:52] 
