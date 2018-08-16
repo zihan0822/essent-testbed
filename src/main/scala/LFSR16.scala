@@ -2,15 +2,15 @@ package playground
 
 import chisel3._
 import chisel3.util._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 
 class LFSR16 extends Module {
   val io = IO(new Bundle {
     val inc = Input(Bool())
-    val out = Output(UInt(width = 16))
+    val out = Output(UInt(16.W))
   })
-  val res = Reg(init = UInt(1, 16))
+  val res = RegInit(1.U(16.W))
   when (io.inc) { 
     val nxt_res = Cat(res(0)^res(2)^res(3)^res(5), res(15,1)) 
     res := nxt_res

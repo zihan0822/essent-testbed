@@ -1,7 +1,7 @@
 package playground
 
 import chisel3._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 
 class MaxN(val n: Int, val w: Int) extends Module {
@@ -9,8 +9,8 @@ class MaxN(val n: Int, val w: Int) extends Module {
   private def MaxN(x: UInt, y: UInt) = Mux(x > y, x, y)
 
   val io = IO(new Bundle {
-    val ins = Input(Vec(n, UInt(width = w)))
-    val out = Output(UInt(width = w))
+    val ins = Input(Vec(n, UInt(w.W)))
+    val out = Output(UInt(w.W))
   })
   io.out := io.ins.reduceLeft(MaxN)
 }

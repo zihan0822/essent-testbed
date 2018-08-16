@@ -2,7 +2,7 @@ package playground
 
 import chisel3._
 import chisel3.util._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 import scala.math.BigInt
 import scala.util.Random
@@ -10,31 +10,31 @@ import scala.util.Random
 class BigUInt(val w: Int) extends Module {
   val shamt = 10
   val io = IO(new Bundle {
-    val inA = Input(UInt(width = w))
-    val inB = Input(UInt(width = w))
-    val inShamt = Input(UInt(width = 4))
-    val outPassA = Output(UInt(width = w))
-    val outAPlusB = Output(UInt(width = w))
-    // val outASubB = Output(SInt(width = w+1))
-    val outAMulB = Output(UInt(width = w+w))
-    // val outADivB = Output(UInt(width = w))
-    // val outARemB = Output(UInt(width = w))
-    val outALtB = Output(UInt(width = 1))
-    val outALeqB = Output(UInt(width = 1))
-    val outAGtB = Output(UInt(width = 1))
-    val outAGeqB = Output(UInt(width = 1))
-    val outAEqB = Output(UInt(width = 1))
-    val outANeqB = Output(UInt(width = 1))
-    val outAShl = Output(UInt(width = w+shamt))
-    val outAShr = Output(UInt(width = w-shamt))
-    val outADshl = Output(UInt(width = w+shamt))
-    val outADshr = Output(UInt(width = w-shamt))
-    // val outNegA = Output(SInt(width = w+1))
-    // val outNotA = Output(UInt(width = w))
-    val outAAndB = Output(UInt(width = w))
-    val outAOrB = Output(UInt(width = w))
-    val outAXorB = Output(UInt(width = w))
-    val outACatB = Output(UInt(width = w+w))
+    val inA = Input(UInt(w.W))
+    val inB = Input(UInt(w.W))
+    val inShamt = Input(UInt(4.W))
+    val outPassA = Output(UInt(w.W))
+    val outAPlusB = Output(UInt(w.W))
+    // val outASubB = Output(SInt((w+1).W))
+    val outAMulB = Output(UInt((w+w).W))
+    // val outADivB = Output(UInt(w.W))
+    // val outARemB = Output(UInt(w.W))
+    val outALtB = Output(UInt(1.W))
+    val outALeqB = Output(UInt(1.W))
+    val outAGtB = Output(UInt(1.W))
+    val outAGeqB = Output(UInt(1.W))
+    val outAEqB = Output(UInt(1.W))
+    val outANeqB = Output(UInt(1.W))
+    val outAShl = Output(UInt((w+shamt).W))
+    val outAShr = Output(UInt((w-shamt).W))
+    val outADshl = Output(UInt((w+shamt).W))
+    val outADshr = Output(UInt((w-shamt).W))
+    // val outNegA = Output(SInt((w+1).W))
+    // val outNotA = Output(UInt(w.W))
+    val outAAndB = Output(UInt(w.W))
+    val outAOrB = Output(UInt(w.W))
+    val outAXorB = Output(UInt(w.W))
+    val outACatB = Output(UInt((w+w).W))
   })
   io.outPassA := io.inA
   io.outAPlusB := io.inA + io.inB
