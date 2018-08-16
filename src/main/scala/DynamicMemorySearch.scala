@@ -1,28 +1,28 @@
 package playground
 
 import chisel3._
-import chisel3.util.log2Up
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.util.log2Ceil
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 
 class DynamicMemorySearch(val n: Int, val w: Int) extends Module {
   val io = IO(new Bundle {
     val isWr   = Input(Bool())
-    val wrAddr = Input(UInt(width = log2Up(n)))
-    val data   = Input(UInt(width = w))
+    val wrAddr = Input(UInt(log2Ceil(n).W))
+    val data   = Input(UInt(w.W))
     val en     = Input(Bool())
-    val target = Output(UInt(width = log2Up(n)))
+    val target = Output(UInt(log2Ceil(n).W))
     val done   = Output(Bool())
   })
-  val index  = Reg(init = UInt(0, width = log2Up(n)))
-  val list   = Mem(n, UInt(width = w))
+  val index  = RegInit(0.U(log2Ceil(n).W))
+  val list   = Mem(n, UInt(w.W))
   val memVal = list(index)
-  val over   = !io.en && ((memVal === io.data) || (index === UInt(n-1)))
+  val over   = !io.en && ((memVal === io.data) || (index === (n-1).U))
   when (io.isWr) {
     list(io.wrAddr) := io.data
   } .elsewhen (io.en) {
     index := 0.U
-  } .elsewhen (over === Bool(false)) {
+  } .elsewhen (over === false.B) {
     index := index + 1.U
   }
   io.done   := over

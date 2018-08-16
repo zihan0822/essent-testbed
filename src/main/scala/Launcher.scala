@@ -15,14 +15,14 @@ object Launcher {
   def testDUT(dutName: String): Boolean = dutName match {
     case "Accumulator" =>
       EssentBackend.buildAndRun(() => new Accumulator())(c => new AccumulatorTests(c))
-    // case "Adder" =>
-    //   EssentBackend.buildAndRun(() => new Adder(16))(c => new AdderTests(c))
+    case "Adder" =>
+      EssentBackend.buildAndRun(() => new Adder(16))(c => new AdderTests(c))
     // case "BigUInt" =>
     //   EssentBackend.buildAndRun(() => new BigUInt(128))(c => new BigUIntTests(c))
-    // case "Counter" =>
-    //   EssentBackend.buildAndRun(() => new Counter())(c => new CounterTests(c))
-    // case "DynamicMemorySearch" =>
-    //   EssentBackend.buildAndRun(() => new DynamicMemorySearch(32, 8))(c => new DynamicMemorySearchTests(c))
+    case "Counter" =>
+      EssentBackend.buildAndRun(() => new Counter())(c => new CounterTests(c))
+    case "DynamicMemorySearch" =>
+      EssentBackend.buildAndRun(() => new DynamicMemorySearch(32, 8))(c => new DynamicMemorySearchTests(c))
     case "Hello" =>
       EssentBackend.buildAndRun(() => new Hello())(c => new HelloTests(c))
     // case "LFSR16" =>

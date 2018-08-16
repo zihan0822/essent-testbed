@@ -2,7 +2,7 @@
 package playground
 
 import chisel3._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 object Counter {
   def wrapAround(n: UInt, max: UInt) = 
@@ -13,7 +13,7 @@ object Counter {
   // amt only when en is asserted
   // ---------------------------------------- \\
   def counter(max: UInt, en: Bool, amt: UInt): UInt = {
-    val x = Reg(init=UInt(0, max.getWidth))
+    val x = RegInit(max.cloneType, 0.U)
     when (en) {
       x := wrapAround(x + amt, max)
     }
@@ -26,8 +26,8 @@ object Counter {
 class Counter extends Module {
   val io = IO(new Bundle {
     val inc = Input(Bool())
-    val amt = Input(UInt(width = 4))
-    val tot = Output(UInt(width = 8))
+    val amt = Input(UInt(4.W))
+    val tot = Output(UInt(8.W))
   })
   io.tot := Counter.counter(255.U, io.inc, io.amt)
 }
