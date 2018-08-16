@@ -1,6 +1,7 @@
 package playground
 
 import chisel3._
+import chisel3.iotesters._
 
 object Launcher {
   val allTests = List("Accumulator", "Adder", "BigUInt", "Counter",
@@ -12,8 +13,8 @@ object Launcher {
                       "VendingMachineSwitch")
 
   def testDUT(dutName: String): Boolean = dutName match {
-    // case "Accumulator" =>
-    //   EssentBackend.buildAndRun(() => new Accumulator())(c => new AccumulatorTests(c))
+    case "Accumulator" =>
+      EssentBackend.buildAndRun(() => new Accumulator())(c => new AccumulatorTests(c))
     // case "Adder" =>
     //   EssentBackend.buildAndRun(() => new Adder(16))(c => new AdderTests(c))
     // case "BigUInt" =>

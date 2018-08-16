@@ -156,6 +156,7 @@ private:
 
   virtual void step() {
     dut_.eval(true, true, true);
+    dut_.eval(false, true, true); // updates external outputs dependent on state elements
   }
 
   virtual void update() {

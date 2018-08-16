@@ -1,14 +1,14 @@
 package playground
 
 import chisel3._
-import Chisel.iotesters.{PeekPokeTester, Driver}
+import chisel3.iotesters.{PeekPokeTester, Driver}
 
 class Accumulator extends Module {
   val io = IO(new Bundle {
-    val in  = Input(UInt(width = 1))
-    val out = Output(UInt(width = 8))
+    val in  = Input(UInt(1.W))
+    val out = Output(UInt(8.W))
   })
-  val accumulator = Reg(init=UInt(0, 8))
+  val accumulator = RegInit(UInt(8.W), 0.U)
   accumulator := accumulator + io.in
   io.out := accumulator
 }
