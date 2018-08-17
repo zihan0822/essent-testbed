@@ -8,6 +8,8 @@ import java.io.{File, FileWriter}
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.nio.file.{Files, Paths}
 
+// FUTURE: consider moving this into essent repo/package
+
 object EssentBackend {
   def buildAndRun[T <: chisel3.Module](dutGen: () => T)(testerGen: T => PeekPokeTester[T]) = {
     // emit firrtl
