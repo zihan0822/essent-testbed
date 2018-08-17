@@ -1,4 +1,4 @@
-image: socks.lbl.gov:4567/sbeamer/playground:gcc7-pk
+image: socks.lbl.gov:4567/sbeamer/essent-testbed:gcc7-pk
 test:
   stage: test
   variables:
