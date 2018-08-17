@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.util._
@@ -92,7 +92,7 @@ object GCDSpecMain {
     if (args.size > 0) {
       if (!Driver(() => new RealGCD2(), "firrtl")(c => new GCDPeekPokeTester(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new RealGCD2(), "./test_run_dir/playground.RealGCD2/RealGCD2")(c => new GCDPeekPokeTester(c))) System.exit(1)
+      if (!Driver.run(() => new RealGCD2(), "./test_run_dir/essent.testbed.RealGCD2/RealGCD2")(c => new GCDPeekPokeTester(c))) System.exit(1)
     }
   }
 }

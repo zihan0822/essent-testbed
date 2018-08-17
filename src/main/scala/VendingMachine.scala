@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.util.Enum
@@ -63,7 +63,7 @@ object VendingMachineMain {
     if (args.size > 0) {
       if (!Driver(() => new VendingMachine(), "firrtl")(c => new VendingMachineTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new VendingMachine(), "./test_run_dir/playground.VendingMachine/VendingMachine")(c => new VendingMachineTests(c))) System.exit(1)
+      if (!Driver.run(() => new VendingMachine(), "./test_run_dir/essent.testbed.VendingMachine/VendingMachine")(c => new VendingMachineTests(c))) System.exit(1)
     }
   }
 }

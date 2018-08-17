@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -53,7 +53,7 @@ object Mux8Main {
     if (args.size > 0) {
       if (!Driver(() => new Mux8(), "firrtl")(c => new Mux8Tests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Mux8(), "./test_run_dir/playground.Mux8/Mux8")(c => new Mux8Tests(c))) System.exit(1)
+      if (!Driver.run(() => new Mux8(), "./test_run_dir/essent.testbed.Mux8/Mux8")(c => new Mux8Tests(c))) System.exit(1)
     }
   }
 }

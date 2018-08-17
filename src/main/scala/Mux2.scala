@@ -1,5 +1,5 @@
 // See LICENSE.txt for license details.
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}

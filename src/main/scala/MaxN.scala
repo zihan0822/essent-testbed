@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -33,7 +33,7 @@ object MaxNMain {
     if (args.size > 0) {
       if (!Driver(() => new MaxN(2, 12), "firrtl")(c => new MaxNTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new MaxN(2, 12), "./test_run_dir/playground.MaxN/MaxN")(c => new MaxNTests(c))) System.exit(1)
+      if (!Driver.run(() => new MaxN(2, 12), "./test_run_dir/essent.testbed.MaxN/MaxN")(c => new MaxNTests(c))) System.exit(1)
     }
   }
 }

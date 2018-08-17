@@ -1,10 +1,10 @@
 organization := "lbl.gov"
 
-version := "0.1"
+version := "0.2"
 
-name := "playground"
+name := "essent.testbed"
 
-mainClass in (Compile, run) := Some("playground.Launcher")
+mainClass in (Compile, run) := Some("essent.testbed.Launcher")
 
 scalaVersion := "2.11.12"
 

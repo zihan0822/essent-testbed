@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.util._
@@ -99,7 +99,7 @@ object BigUIntMain {
     if (args.size > 0) {
       if (!Driver(() => new BigUInt(128), "firrtl")(c => new BigUIntTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new BigUInt(128), "./test_run_dir/playground.BitUInt/BitUInt")(c => new BigUIntTests(c))) System.exit(1)
+      if (!Driver.run(() => new BigUInt(128), "./test_run_dir/essent.testbed.BitUInt/BitUInt")(c => new BigUIntTests(c))) System.exit(1)
     }
   }
 }

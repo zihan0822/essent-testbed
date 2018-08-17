@@ -1,5 +1,5 @@
 // See LICENSE.txt for license details.
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -18,7 +18,7 @@ object HelloMain {
     if (args.size > 0) {
       if (!Driver(() => new Hello(), "firrtl")(c => new HelloTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Hello(), "./test_run_dir/playground.Hello/Hello")(c => new HelloTests(c))) System.exit(1)
+      if (!Driver.run(() => new Hello(), "./test_run_dir/essent.testbed.Hello/Hello")(c => new HelloTests(c))) System.exit(1)
     }
   }
 }

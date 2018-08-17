@@ -1,5 +1,5 @@
 // See LICENSE.txt for license details.
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -41,7 +41,7 @@ object SoloRegMain {
     if (args.size > 0) {
       if (!Driver(() => new SoloReg(), "firrtl")(c => new SoloRegTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new SoloReg(), "./test_run_dir/playground.SoloReg/SoloReg")(c => new SoloRegTests(c))) System.exit(1)
+      if (!Driver.run(() => new SoloReg(), "./test_run_dir/essent.testbed.SoloReg/SoloReg")(c => new SoloRegTests(c))) System.exit(1)
     }
   }
 }

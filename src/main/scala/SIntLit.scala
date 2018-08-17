@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -25,7 +25,7 @@ object SIntLitMain {
     if (args.size > 0) {
       if (!Driver(() => new SIntLit(16), "firrtl")(c => new SIntLitTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new SIntLit(16), "./test_run_dir/playground.SIntLit/SIntLit")(c => new SIntLitTests(c))) System.exit(1)
+      if (!Driver.run(() => new SIntLit(16), "./test_run_dir/essent.testbed.SIntLit/SIntLit")(c => new SIntLitTests(c))) System.exit(1)
     }
   }
 }

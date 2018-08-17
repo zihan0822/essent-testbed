@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -73,7 +73,7 @@ object Mux4Main {
     if (args.size > 0) {
       if (!Driver(() => new Mux4(), "firrtl")(c => new Mux4Tests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Mux4(), "./test_run_dir/playground.Mux4/Mux4")(c => new Mux4Tests(c))) System.exit(1)
+      if (!Driver.run(() => new Mux4(), "./test_run_dir/essent.testbed.Mux4/Mux4")(c => new Mux4Tests(c))) System.exit(1)
     }
   }
 }

@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -25,7 +25,7 @@ object StopperMain {
     if (args.size > 0) {
       if (!Driver(() => new Stopper, "firrtl")(c => new StopperTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Stopper, "./test_run_dir/playground.Stopper/Stopper")(c => new StopperTests(c))) System.exit(1)
+      if (!Driver.run(() => new Stopper, "./test_run_dir/essent.testbed.Stopper/Stopper")(c => new StopperTests(c))) System.exit(1)
     }
   }
 }

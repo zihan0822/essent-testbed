@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -38,7 +38,7 @@ object VecShiftRegisterSimpleMain {
     if (args.size > 0) {
       if (!Driver(() => new VecShiftRegisterSimple(), "firrtl")(c => new VecShiftRegisterSimpleTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new VecShiftRegisterSimple(), "./test_run_dir/playground.VecShiftRegisterSimple/VecShiftRegisterSimple")(c => new VecShiftRegisterSimpleTests(c))) System.exit(1)
+      if (!Driver.run(() => new VecShiftRegisterSimple(), "./test_run_dir/essent.testbed.VecShiftRegisterSimple/VecShiftRegisterSimple")(c => new VecShiftRegisterSimpleTests(c))) System.exit(1)
     }
   }
 }

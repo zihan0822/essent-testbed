@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -29,7 +29,7 @@ object AccumulatorMain {
     if (args.size > 0) {
       if (!Driver(() => new Accumulator(), "firrtl")(c => new AccumulatorTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Accumulator(), "./test_run_dir/playground.Accumulator/Accumulator")(c => new AccumulatorTests(c))) System.exit(1)
+      if (!Driver.run(() => new Accumulator(), "./test_run_dir/essent.testbed.Accumulator/Accumulator")(c => new AccumulatorTests(c))) System.exit(1)
     }
   }
 }

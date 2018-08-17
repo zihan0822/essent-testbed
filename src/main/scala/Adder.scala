@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -29,7 +29,7 @@ object AdderMain {
     if (args.size > 0) {
       if (!Driver(() => new Adder(16), "firrtl")(c => new AdderTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Adder(16), "./test_run_dir/playground.Adder/Adder")(c => new AdderTests(c))) System.exit(1)
+      if (!Driver.run(() => new Adder(16), "./test_run_dir/essent.testbed.Adder/Adder")(c => new AdderTests(c))) System.exit(1)
     }
   }
 }

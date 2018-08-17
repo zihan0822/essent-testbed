@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.util._
@@ -66,7 +66,7 @@ object VendingMachineSwitchMain {
     if (args.size > 0) {
       if (!Driver(() => new VendingMachineSwitch(), "firrtl")(c => new VendingMachineSwitchTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new VendingMachineSwitch(), "./test_run_dir/playground.VendingMachineSwitch/VendingMachineSwitch")(c => new VendingMachineSwitchTests(c))) System.exit(1)
+      if (!Driver.run(() => new VendingMachineSwitch(), "./test_run_dir/essent.testbed.VendingMachineSwitch/VendingMachineSwitch")(c => new VendingMachineSwitchTests(c))) System.exit(1)
     }
   }
 }

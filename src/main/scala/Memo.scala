@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -59,7 +59,7 @@ object MemoMain {
     if (args.size > 0) {
       if (!Driver(() => new Memo(), "firrtl")(c => new MemoTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Memo(), "./test_run_dir/playground.Memo/Memo")(c => new MemoTests(c))) System.exit(1)
+      if (!Driver.run(() => new Memo(), "./test_run_dir/essent.testbed.Memo/Memo")(c => new MemoTests(c))) System.exit(1)
     }
   }
 }

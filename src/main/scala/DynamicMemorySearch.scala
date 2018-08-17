@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.util.log2Ceil
@@ -75,7 +75,7 @@ object DynamicMemorySearchMain {
     if (args.size > 0) {
       if (!Driver(() => new DynamicMemorySearch(32, 8), "firrtl")(c => new DynamicMemorySearchTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new DynamicMemorySearch(32, 8), "./test_run_dir/playground.DynamicMemorySearch/DynamicMemorySearch")(c => new DynamicMemorySearchTests(c))) System.exit(1)
+      if (!Driver.run(() => new DynamicMemorySearch(32, 8), "./test_run_dir/essent.testbed.DynamicMemorySearch/DynamicMemorySearch")(c => new DynamicMemorySearchTests(c))) System.exit(1)
     }
   }
 }

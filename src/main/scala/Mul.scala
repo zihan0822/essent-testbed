@@ -1,4 +1,4 @@
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.util._
@@ -46,7 +46,7 @@ object MulMain {
     if (args.size > 0) {
       if (!Driver(() => new Mul(), "firrtl")(c => new MulTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Mul(), "./test_run_dir/playground.Mul/Mul")(c => new MulTests(c))) System.exit(1)
+      if (!Driver.run(() => new Mul(), "./test_run_dir/essent.testbed.Mul/Mul")(c => new MulTests(c))) System.exit(1)
     }
   }
 }

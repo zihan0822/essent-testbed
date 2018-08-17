@@ -1,5 +1,5 @@
 // See LICENSE.txt for license details.
-package playground
+package essent.testbed
 
 import chisel3._
 import chisel3.iotesters.{PeekPokeTester, Driver}
@@ -76,7 +76,7 @@ object CounterMain {
     if (args.size > 0) {
       if (!Driver(() => new Counter(), "firrtl")(c => new CounterTests(c))) System.exit(1)
     } else {
-      if (!Driver.run(() => new Counter(), "./test_run_dir/playground.Counter/Counter")(c => new CounterTests(c))) System.exit(1)
+      if (!Driver.run(() => new Counter(), "./test_run_dir/essent.testbed.Counter/Counter")(c => new CounterTests(c))) System.exit(1)
     }
   }
 }
