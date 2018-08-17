@@ -33,6 +33,7 @@ test:
     - export RISCV=/riscv
   script:
     # test basics
+    - alias c++=g++-7
     - sbt 'run all'
     # test rocket
     - cd rocket
