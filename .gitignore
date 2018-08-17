@@ -2,7 +2,7 @@ target/
 project/project
 project/target
 test_run_dir
-my_run_dir
+essent_run_dir
 
 rocket/TestHarness-harness.cc
 rocket/TestHarness.h
@@ -13,5 +13,3 @@ rocket/riscv_bin
 rocket/old_emulators
 rocket/to_del
 rocket/todo
-
-csrc/sim_api.h

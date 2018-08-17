@@ -11,6 +11,8 @@ import java.nio.file.{Files, Paths}
 // FUTURE: consider moving this into essent repo/package
 
 object EssentBackend {
+  val baseBuildAndTestDirName = "essent_run_dir"
+
   def buildAndRun[T <: chisel3.Module](dutGen: () => T)(testerGen: T => PeekPokeTester[T]) = {
     // emit firrtl
     val circuit = chisel3.Driver.elaborate(dutGen)
@@ -18,7 +20,7 @@ object EssentBackend {
     val chirrtl = firrtl.Parser.parse(chisel3.Driver.emit(circuit))
     val dut = (circuit.components find (_.name == circuit.name)).get.id.asInstanceOf[T]
     // make output directory
-    val dir = new File(s"my_run_dir2/${dut.getClass.getName}")
+    val dir = new File(baseBuildAndTestDirName + "/" + dut.getClass.getName)
     dir.mkdirs()
     val buildDir = dir.getAbsolutePath
     val dutName = chirrtl.main
