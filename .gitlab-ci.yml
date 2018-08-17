@@ -32,6 +32,9 @@ test:
     # Setup RISCV (image already has fesvr)
     - export RISCV=/riscv
   script:
+    # test basics
+    - sbt 'run all'
+    # test rocket
     - cd rocket
     - rm -f TestHarness.h emulator
     - time CXX=g++-7 make emulator
