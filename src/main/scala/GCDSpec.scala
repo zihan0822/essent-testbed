@@ -36,7 +36,7 @@ class RealGCD2 extends Module {
   val p = RegInit(false.B)
 
   val ti = RegInit(0.U(RealGCD2.num_width.W))
-  ti := ti + UInt(1)
+  ti := ti + 1.U
 
   io.in.ready := !p
 
@@ -89,11 +89,7 @@ class GCDPeekPokeTester(c: RealGCD2) extends PeekPokeTester(c)  {
 
 object GCDSpecMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new RealGCD2(), "firrtl")(c => new GCDPeekPokeTester(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new RealGCD2(), "./test_run_dir/essent.testbed.RealGCD2/RealGCD2")(c => new GCDPeekPokeTester(c))) System.exit(1)
-    }
+    if (!Driver(() => new RealGCD2(), "firrtl")(c => new GCDPeekPokeTester(c))) System.exit(1)
   }
 }
 

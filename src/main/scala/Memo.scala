@@ -56,10 +56,6 @@ class MemoTests(c: Memo) extends PeekPokeTester(c) {
 
 object MemoMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new Memo(), "firrtl")(c => new MemoTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new Memo(), "./test_run_dir/essent.testbed.Memo/Memo")(c => new MemoTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new Memo(), "firrtl")(c => new MemoTests(c))) System.exit(1)
   }
 }

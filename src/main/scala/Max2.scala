@@ -29,10 +29,6 @@ class Max2Tests(c: Max2) extends PeekPokeTester(c) {
 
 object Max2Main {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new Max2(), "firrtl")(c => new Max2Tests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new Max2(), "./test_run_dir/essent.testbed.Max2/Max2")(c => new Max2Tests(c))) System.exit(1)
-    }
+    if (!Driver(() => new Max2(), "firrtl")(c => new Max2Tests(c))) System.exit(1)
   }
 }

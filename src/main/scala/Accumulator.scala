@@ -26,10 +26,6 @@ class AccumulatorTests(c: Accumulator) extends PeekPokeTester(c) {
 
 object AccumulatorMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new Accumulator(), "firrtl")(c => new AccumulatorTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new Accumulator(), "./test_run_dir/essent.testbed.Accumulator/Accumulator")(c => new AccumulatorTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new Accumulator(), "firrtl")(c => new AccumulatorTests(c))) System.exit(1)
   }
 }

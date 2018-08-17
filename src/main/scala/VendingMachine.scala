@@ -60,10 +60,6 @@ class VendingMachineTests(c: VendingMachine) extends PeekPokeTester(c) {
 
 object VendingMachineMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new VendingMachine(), "firrtl")(c => new VendingMachineTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new VendingMachine(), "./test_run_dir/essent.testbed.VendingMachine/VendingMachine")(c => new VendingMachineTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new VendingMachine(), "firrtl")(c => new VendingMachineTests(c))) System.exit(1)
   }
 }

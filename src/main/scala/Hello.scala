@@ -15,10 +15,6 @@ class HelloTests(c: Hello) extends PeekPokeTester(c) {
 
 object HelloMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new Hello(), "firrtl")(c => new HelloTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new Hello(), "./test_run_dir/essent.testbed.Hello/Hello")(c => new HelloTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new Hello(), "firrtl")(c => new HelloTests(c))) System.exit(1)
   }
 }

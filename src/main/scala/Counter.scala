@@ -73,10 +73,6 @@ class CounterTests(c: Counter) extends PeekPokeTester(c) {
 
 object CounterMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new Counter(), "firrtl")(c => new CounterTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new Counter(), "./test_run_dir/essent.testbed.Counter/Counter")(c => new CounterTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new Counter(), "firrtl")(c => new CounterTests(c))) System.exit(1)
   }
 }

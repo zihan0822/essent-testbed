@@ -74,10 +74,6 @@ class RealGCDTests(c: RealGCD) extends PeekPokeTester(c) {
 
 object RealGCDMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new RealGCD(), "firrtl")(c => new RealGCDTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new RealGCD(), "./test_run_dir/essent.testbed.RealGCD/RealGCD")(c => new RealGCDTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new RealGCD(), "firrtl")(c => new RealGCDTests(c))) System.exit(1)
   }
 }

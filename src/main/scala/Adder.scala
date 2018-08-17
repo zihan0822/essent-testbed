@@ -26,10 +26,6 @@ class AdderTests(c: Adder) extends PeekPokeTester(c) {
 
 object AdderMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new Adder(16), "firrtl")(c => new AdderTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new Adder(16), "./test_run_dir/essent.testbed.Adder/Adder")(c => new AdderTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new Adder(16), "firrtl")(c => new AdderTests(c))) System.exit(1)
   }
 }

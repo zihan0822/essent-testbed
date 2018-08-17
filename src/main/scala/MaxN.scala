@@ -30,10 +30,6 @@ class MaxNTests(c: MaxN) extends PeekPokeTester(c) {
 
 object MaxNMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new MaxN(2, 12), "firrtl")(c => new MaxNTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new MaxN(2, 12), "./test_run_dir/essent.testbed.MaxN/MaxN")(c => new MaxNTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new MaxN(2, 12), "firrtl")(c => new MaxNTests(c))) System.exit(1)
   }
 }

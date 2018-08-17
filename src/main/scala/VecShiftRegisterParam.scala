@@ -32,10 +32,6 @@ class VecShiftRegisterParamTests(c: VecShiftRegisterParam) extends PeekPokeTeste
 
 object VecShiftRegisterParamMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new VecShiftRegisterParam(8,8), "firrtl")(c => new VecShiftRegisterParamTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new VecShiftRegisterParam(8,8), "./test_run_dir/essent.testbed.VecShiftRegisterParam/VecShiftRegisterParam")(c => new VecShiftRegisterParamTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new VecShiftRegisterParam(8,8), "firrtl")(c => new VecShiftRegisterParamTests(c))) System.exit(1)
   }
 }

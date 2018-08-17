@@ -22,10 +22,6 @@ class StopperTests(c: Stopper) extends PeekPokeTester(c) {
 
 object StopperMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new Stopper, "firrtl")(c => new StopperTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new Stopper, "./test_run_dir/essent.testbed.Stopper/Stopper")(c => new StopperTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new Stopper, "firrtl")(c => new StopperTests(c))) System.exit(1)
   }
 }

@@ -52,10 +52,6 @@ class SingleEvenFilterTests[T <: UInt](c: SingleEvenFilter[T]) extends PeekPokeT
 
 object SingleEvenFilterMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new SingleEvenFilter(UInt(16.W)), "firrtl")(c => new SingleEvenFilterTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new SingleEvenFilter(UInt(16.W)), "./test_run_dir/essent.testbed.SingleEvenFilter/SingleEvenFilter")(c => new SingleEvenFilterTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new SingleEvenFilter(UInt(16.W)), "firrtl")(c => new SingleEvenFilterTests(c))) System.exit(1)
   }
 }

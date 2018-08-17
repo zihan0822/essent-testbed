@@ -35,10 +35,6 @@ class VecShiftRegisterSimpleTests(c: VecShiftRegisterSimple) extends PeekPokeTes
 
 object VecShiftRegisterSimpleMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new VecShiftRegisterSimple(), "firrtl")(c => new VecShiftRegisterSimpleTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new VecShiftRegisterSimple(), "./test_run_dir/essent.testbed.VecShiftRegisterSimple/VecShiftRegisterSimple")(c => new VecShiftRegisterSimpleTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new VecShiftRegisterSimple(), "firrtl")(c => new VecShiftRegisterSimpleTests(c))) System.exit(1)
   }
 }

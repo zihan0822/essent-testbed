@@ -72,10 +72,6 @@ class DynamicMemorySearchTests(c: DynamicMemorySearch) extends PeekPokeTester(c)
 
 object DynamicMemorySearchMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new DynamicMemorySearch(32, 8), "firrtl")(c => new DynamicMemorySearchTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new DynamicMemorySearch(32, 8), "./test_run_dir/essent.testbed.DynamicMemorySearch/DynamicMemorySearch")(c => new DynamicMemorySearchTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new DynamicMemorySearch(32, 8), "firrtl")(c => new DynamicMemorySearchTests(c))) System.exit(1)
   }
 }

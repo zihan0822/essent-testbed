@@ -96,10 +96,6 @@ class BigUIntTests(c: BigUInt) extends PeekPokeTester(c) {
 
 object BigUIntMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new BigUInt(128), "firrtl")(c => new BigUIntTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new BigUInt(128), "./test_run_dir/essent.testbed.BitUInt/BitUInt")(c => new BigUIntTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new BigUInt(128), "firrtl")(c => new BigUIntTests(c))) System.exit(1)
   }
 }

@@ -70,10 +70,6 @@ class Mux4Tests(c: Mux4) extends PeekPokeTester(c) {
 
 object Mux4Main {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new Mux4(), "firrtl")(c => new Mux4Tests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new Mux4(), "./test_run_dir/essent.testbed.Mux4/Mux4")(c => new Mux4Tests(c))) System.exit(1)
-    }
+    if (!Driver(() => new Mux4(), "firrtl")(c => new Mux4Tests(c))) System.exit(1)
   }
 }

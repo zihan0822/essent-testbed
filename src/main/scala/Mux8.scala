@@ -50,10 +50,6 @@ class Mux8Tests(c: Mux8) extends PeekPokeTester(c) {
 
 object Mux8Main {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new Mux8(), "firrtl")(c => new Mux8Tests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new Mux8(), "./test_run_dir/essent.testbed.Mux8/Mux8")(c => new Mux8Tests(c))) System.exit(1)
-    }
+    if (!Driver(() => new Mux8(), "firrtl")(c => new Mux8Tests(c))) System.exit(1)
   }
 }

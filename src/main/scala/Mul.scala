@@ -43,10 +43,6 @@ class MulTests(c: Mul) extends PeekPokeTester(c) {
 
 object MulMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new Mul(), "firrtl")(c => new MulTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new Mul(), "./test_run_dir/essent.testbed.Mul/Mul")(c => new MulTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new Mul(), "firrtl")(c => new MulTests(c))) System.exit(1)
   }
 }

@@ -22,10 +22,6 @@ class SIntLitTests(c: SIntLit) extends PeekPokeTester(c) {
 
 object SIntLitMain {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new SIntLit(16), "firrtl")(c => new SIntLitTests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new SIntLit(16), "./test_run_dir/essent.testbed.SIntLit/SIntLit")(c => new SIntLitTests(c))) System.exit(1)
-    }
+    if (!Driver(() => new SIntLit(16), "firrtl")(c => new SIntLitTests(c))) System.exit(1)
   }
 }

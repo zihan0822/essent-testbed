@@ -34,10 +34,6 @@ class LFSR16Tests(c: LFSR16) extends PeekPokeTester(c) {
 
 object LFSR16Main {
   def main(args: Array[String]): Unit = {
-    if (args.size > 0) {
-      if (!Driver(() => new LFSR16(), "firrtl")(c => new LFSR16Tests(c))) System.exit(1)
-    } else {
-      if (!Driver.run(() => new LFSR16(), "./test_run_dir/essent.testbed.LFSR16/LFSR16")(c => new LFSR16Tests(c))) System.exit(1)
-    }
+    if (!Driver(() => new LFSR16(), "firrtl")(c => new LFSR16Tests(c))) System.exit(1)
   }
 }
