@@ -16,13 +16,13 @@ libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 
-libraryDependencies += "edu.berkeley.cs" %% "firrtl" % "1.1.2"
+libraryDependencies += "edu.berkeley.cs" %% "firrtl" % "1.1.3"
 
-libraryDependencies += "edu.berkeley.cs" %% "chisel3" % "3.1.2"
+libraryDependencies += "edu.berkeley.cs" %% "chisel3" % "3.1.3"
 
-libraryDependencies += "edu.berkeley.cs" %% "firrtl-interpreter" % "1.1.2"
+libraryDependencies += "edu.berkeley.cs" %% "firrtl-interpreter" % "1.1.3"
 
-libraryDependencies += "edu.berkeley.cs" %% "chisel-iotesters" % "1.2.2"
+libraryDependencies += "edu.berkeley.cs" %% "chisel-iotesters" % "1.2.3"
 
 lazy val essent = (project in file("essent"))
 
