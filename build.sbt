@@ -10,23 +10,24 @@ scalaVersion := "2.11.12"
 
 scalacOptions ++= Seq("-deprecation", "-unchecked")
 
-lazy val firrtl = (project in file("firrtl"))
-
-lazy val essent = (project in file("essent")).dependsOn(firrtl)
-
-lazy val root = (project in file(".")).dependsOn(essent)
-
 libraryDependencies += "com.github.scopt" %% "scopt" % "3.6.0"
 
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 
+libraryDependencies += "edu.berkeley.cs" %% "firrtl" % "1.1.0"
+
 libraryDependencies += "edu.berkeley.cs" %% "chisel3" % "3.1.0"
 
 libraryDependencies += "edu.berkeley.cs" %% "firrtl-interpreter" % "1.1.0"
 
 libraryDependencies += "edu.berkeley.cs" %% "chisel-iotesters" % "1.2.0"
+
+lazy val essent = (project in file("essent"))
+
+lazy val root = (project in file(".")).dependsOn(essent)
+
 
 // ANTLRv4
 
