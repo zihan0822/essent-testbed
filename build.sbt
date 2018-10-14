@@ -6,9 +6,14 @@ name := "essent.testbed"
 
 mainClass in (Compile, run) := Some("essent.testbed.Launcher")
 
-scalaVersion := "2.11.12"
+scalaVersion := "2.12.4"
 
-scalacOptions ++= Seq("-deprecation", "-unchecked")
+/* Xsource needed because of issue of 2.12 and bundles
+https://github.com/freechipsproject/chisel3/wiki/release-notes-17-09-14
+https://github.com/freechipsproject/chisel3/issues/606
+https://github.com/freechipsproject/chisel3/pull/754
+*/
+scalacOptions ++= Seq("-deprecation", "-feature", "-language:reflectiveCalls", "-Xsource:2.11")
 
 libraryDependencies += "com.github.scopt" %% "scopt" % "3.6.0"
 
