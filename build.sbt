@@ -8,12 +8,21 @@ mainClass in (Compile, run) := Some("essent.testbed.Launcher")
 
 scalaVersion := "2.12.4"
 
-/* Xsource needed because of issue of 2.12 and bundles
-https://github.com/freechipsproject/chisel3/wiki/release-notes-17-09-14
-https://github.com/freechipsproject/chisel3/issues/606
-https://github.com/freechipsproject/chisel3/pull/754
-*/
-scalacOptions ++= Seq("-deprecation", "-feature", "-language:reflectiveCalls", "-Xsource:2.11")
+def scalacOptionsVersion(scalaVersion: String): Seq[String] = {
+  Seq() ++ {
+    // If we're building with Scala > 2.11, enable the compile option
+    //  switch to support our anonymous Bundle definitions:
+    //  https://github.com/scala/bug/issues/10047
+    CrossVersion.partialVersion(scalaVersion) match {
+      case Some((2, scalaMajor: Long)) if scalaMajor < 12 => Seq()
+      case _ => Seq("-Xsource:2.11")
+    }
+  }
+}
+
+scalacOptions ++= scalacOptionsVersion(scalaVersion.value)
+
+scalacOptions ++= Seq("-deprecation", "-feature", "-language:reflectiveCalls")
 
 libraryDependencies += "com.github.scopt" %% "scopt" % "3.6.0"
 
