@@ -6,9 +6,9 @@ ifeq ($(UNAME_OS),Darwin)
 	CXXFLAGS += $(CLANG_FLAGS)
 endif
 
-INCLUDES = -I../csrc -I$(RISCV)/include -I../firrtl-sig
+INCLUDES = -I../csrc -Iriscv/include -I../firrtl-sig
 
-LIBS = -L$(RISCV)/lib -Wl,-rpath,$(RISCV)/lib -lfesvr -lpthread
+LIBS = -Lriscv/lib -Wl,-rpath,riscv/lib -lfesvr -lpthread
 
 TestHarness.h:
 	cd ../essent; sbt 'run ../rocket/TestHarness.DefaultConfig.1609.fir'
@@ -16,7 +16,7 @@ TestHarness.h:
 emulator: emulator.cc TestHarness.h
 	$(CXX) $(CXXFLAGS) $(INCLUDES) emulator.cc -o emulator $(LIBS)
 
-INCLUDES_HEAD = -I../csrc -I$(RISCV)-head/include -I../firrtl-sig
-LIBS_HEAD = -L$(RISCV)-head/lib -Wl,-rpath,$(RISCV)-head/lib -lfesvr -lpthread
+INCLUDES_HEAD = -I../csrc -Iriscv-head/include -I../firrtl-sig
+LIBS_HEAD = -Lriscv-head/lib -Wl,-rpath,riscv-head/lib -lfesvr -lpthread
 emulator-head: emulator-head.cc TestHarness.h
 	$(CXX) $(CXXFLAGS) $(INCLUDES_HEAD) emulator-head.cc -o emulator-head $(LIBS_HEAD)
