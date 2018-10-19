@@ -30,7 +30,8 @@ test:
     - sbt sbtVersion
     - cd ..
     # Setup RISCV (image already has fesvr)
-    - export RISCV=/riscv
+    # - export RISCV=/riscv
+    - cp /riscv rocket/
     # Make alias with for g++
     - ln -s /usr/bin/g++-7 /usr/bin/g++
   script:
