@@ -79,24 +79,24 @@ EMULATOR OPTIONS\n\
 void tick_dtm(TestHarness *tile, bool done_reset) {
   if (done_reset) {
     dtm_t::resp resp_bits;
-    resp_bits.resp = tile->SimDTM.debug_resp_bits_resp.as_single_word();
-    resp_bits.data = tile->SimDTM.debug_resp_bits_data.as_single_word();
+    resp_bits.resp = tile->SimDTM$$inst.debug_resp_bits_resp.as_single_word();
+    resp_bits.data = tile->SimDTM$$inst.debug_resp_bits_data.as_single_word();
 
-    dtm->tick(tile->SimDTM.debug_req_ready.as_single_word(),
-              tile->SimDTM.debug_resp_valid.as_single_word(),
+    dtm->tick(tile->SimDTM$$inst.debug_req_ready.as_single_word(),
+              tile->SimDTM$$inst.debug_resp_valid.as_single_word(),
               resp_bits);
 
-    tile->SimDTM.debug_resp_ready = UInt<1>(dtm->resp_ready());
-    tile->SimDTM.debug_req_valid = UInt<1>(dtm->req_valid());
-    tile->SimDTM.debug_req_bits_addr = UInt<7>(dtm->req_bits().addr);
-    tile->SimDTM.debug_req_bits_op = UInt<2>(dtm->req_bits().op);
-    tile->SimDTM.debug_req_bits_data = UInt<32>(dtm->req_bits().data);
+    tile->SimDTM$$inst.debug_resp_ready = UInt<1>(dtm->resp_ready());
+    tile->SimDTM$$inst.debug_req_valid = UInt<1>(dtm->req_valid());
+    tile->SimDTM$$inst.debug_req_bits_addr = UInt<7>(dtm->req_bits().addr);
+    tile->SimDTM$$inst.debug_req_bits_op = UInt<2>(dtm->req_bits().op);
+    tile->SimDTM$$inst.debug_req_bits_data = UInt<32>(dtm->req_bits().data);
 
-    tile->SimDTM.exit = UInt<32>(dtm->done() ? (dtm->exit_code() << 1 | 1) : 0);
+    tile->SimDTM$$inst.exit = UInt<32>(dtm->done() ? (dtm->exit_code() << 1 | 1) : 0);
   } else {
-    tile->SimDTM.debug_req_valid = UInt<1>(0);
-    tile->SimDTM.debug_resp_ready = UInt<1>(0);
-    tile->SimDTM.exit = UInt<32>(0);
+    tile->SimDTM$$inst.debug_req_valid = UInt<1>(0);
+    tile->SimDTM$$inst.debug_resp_ready = UInt<1>(0);
+    tile->SimDTM$$inst.exit = UInt<32>(0);
   }
 }
 
