@@ -42,7 +42,7 @@ test:
     - rm -f TestHarness.h emulator
     - time CXX=g++-7 make emulator
     - time ./emulator +cycle-count ./dhrystone.riscv
-    - time ./emulator +cycle-count +max-cycles=2000000 $RISCV/riscv64-unknown-elf/bin/pk /hello
+    - time ./emulator +cycle-count +max-cycles=2000000 riscv/riscv64-unknown-elf/bin/pk /hello
   cache:
     untracked: true
     paths:
