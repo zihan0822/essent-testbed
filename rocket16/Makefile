@@ -1,29 +1,3 @@
-CXXFLAGS = -O3 -std=c++11
-CLANG_FLAGS = -fno-slp-vectorize -fbracket-depth=1024
+FIR_PATH = $(pwd)/TestHarness.DefaultConfig.1609.fir
 
-UNAME_OS := $(shell uname -s)
-ifeq ($(UNAME_OS),Darwin)
-	CXXFLAGS += $(CLANG_FLAGS)
-endif
-
-ifeq ($(ALL_ON),1)
-	CXXFLAGS += -DALL_ON
-endif
-
-INCLUDES = -I../csrc -Iriscv/include -I../firrtl-sig
-
-LIBS = -Lriscv/lib -Wl,-rpath,riscv/lib -lfesvr -lpthread
-
-riscv_dir := $(shell pwd)/riscv
-
-riscv/lib/libfesvr.so:
-	git submodule update --init riscv-fesvr
-	cd riscv-fesvr; git checkout `cat ../fesvr.commit`
-	mkdir $(riscv_dir)
-	cd riscv-fesvr; mkdir build; cd build; ../configure --prefix=$(riscv_dir) --target=riscv64-unknown-elf; make install
-
-TestHarness.h:
-	cd ../essent; sbt 'run ../rocket16/TestHarness.DefaultConfig.1609.fir'
-
-emulator: emulator.cc TestHarness.h riscv/lib/libfesvr.so
-	$(CXX) $(CXXFLAGS) $(INCLUDES) emulator.cc -o emulator $(LIBS)
+include ../emulator.mk
