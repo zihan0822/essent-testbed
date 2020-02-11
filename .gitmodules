@@ -1,3 +1,6 @@
 [submodule "SimpleJSON"]
 	path = SimpleJSON
 	url = https://github.com/nbsdx/SimpleJSON.git
+[submodule "rocket16/riscv-fesvr"]
+	path = rocket16/riscv-fesvr
+	url = https://github.com/riscv/riscv-fesvr
