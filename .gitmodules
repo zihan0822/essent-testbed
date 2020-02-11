@@ -7,3 +7,6 @@
 [submodule "rocket18/riscv-fesvr"]
 	path = rocket18/riscv-fesvr
 	url = https://github.com/riscv/riscv-fesvr.git
+[submodule "boom/riscv-fesvr"]
+	path = boom/riscv-fesvr
+	url = https://github.com/riscv/riscv-fesvr.git
