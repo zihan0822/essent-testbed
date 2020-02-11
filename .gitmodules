@@ -10,3 +10,6 @@
 [submodule "boom/riscv-fesvr"]
 	path = boom/riscv-fesvr
 	url = https://github.com/riscv/riscv-fesvr.git
+[submodule "essent"]
+	path = essent
+	url = git@github.com:ucsc-vama/essent.git
