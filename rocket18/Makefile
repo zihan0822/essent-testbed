@@ -23,7 +23,7 @@ riscv/lib/libfesvr.so:
 	cd riscv-fesvr; mkdir build; cd build; ../configure --prefix=$(riscv_dir) --target=riscv64-unknown-elf; make install
 
 TestHarness.h:
-	cd ../essent; sbt 'run ../rocket16/TestHarness.DefaultConfig.1609.fir'
+	cd ../essent; sbt 'run ../rocket18/freechips.rocketchip.system.DefaultConfig.fir'
 
 emulator: emulator.cc TestHarness.h riscv/lib/libfesvr.so
 	$(CXX) $(CXXFLAGS) $(INCLUDES) emulator.cc -o emulator $(LIBS)
