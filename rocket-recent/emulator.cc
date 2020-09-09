@@ -37,45 +37,6 @@ void handle_sigterm(int sig) {
   dtm->stop();
 }
 
-static void usage(const char * program_name) {
-  printf("Usage: %s [EMULATOR OPTION]... [VERILOG PLUSARG]... [HOST OPTION]... BINARY [TARGET OPTION]...\n",
-         program_name);
-  fputs("\
-Run a BINARY on the Rocket Chip emulator.\n\
-\n\
-Mandatory arguments to long options are mandatory for short options too.\n\
-\n\
-EMULATOR OPTIONS\n\
-  -c, --cycle-count        Print the cycle count before exiting\n\
-       +cycle-count\n\
-  -h, --help               Display this help and exit\n\
-  -m, --max-cycles=CYCLES  Kill the emulation after CYCLES\n\
-       +max-cycles=CYCLES\n\
-  -s, --seed=SEED          Use random number seed SEED\n\
-  -r, --rbb-port=PORT      Use PORT for remote bit bang (with OpenOCD and GDB) \n\
-                           If not specified, a random port will be chosen\n\
-                           automatically.\n\
-  -V, --verbose            Enable all Chisel printfs (cycle-by-cycle info)\n\
-       +verbose\n\
-", stdout);
-  fputs("\
-  -v, --vcd=FILE,          Write vcd trace to FILE (or '-' for stdout)\n\
-  -x, --dump-start=CYCLE   Start VCD tracing at CYCLE\n\
-       +dump-start\n\
-", stdout);
-  // fputs("\n" PLUSARG_USAGE_OPTIONS, stdout);
-  fputs("\n" HTIF_USAGE_OPTIONS, stdout);
-  printf("\n"
-"EXAMPLES\n"
-"  - run a bare metal test:\n"
-"    %s $RISCV/riscv64-unknown-elf/share/riscv-tests/isa/rv64ui-p-add\n"
-"  - run a bare metal test showing cycle-by-cycle information:\n"
-"    %s +verbose $RISCV/riscv64-unknown-elf/share/riscv-tests/isa/rv64ui-p-add 2>&1 | spike-dasm\n"
-"  - run an ELF (you wrote, called 'hello') using the proxy kernel:\n"
-"    %s pk hello\n",
-         program_name, program_name, program_name);
-}
-
 void tick_dtm(TestHarness *tile, bool done_reset) {
   if (done_reset) {
     dtm_t::resp resp_bits;
@@ -100,6 +61,42 @@ void tick_dtm(TestHarness *tile, bool done_reset) {
   }
 }
 
+static void usage(const char * program_name) {
+  printf("Usage: %s [EMULATOR OPTION]... [VERILOG PLUSARG]... [HOST OPTION]... BINARY [TARGET OPTION]...\n",
+         program_name);
+  fputs("\
+Run a BINARY on the Rocket Chip emulator.\n\
+\n\
+Mandatory arguments to long options are mandatory for short options too.\n\
+\n\
+EMULATOR OPTIONS\n\
+  -c, --cycle-count        Print the cycle count before exiting\n\
+       +cycle-count\n\
+  -h, --help               Display this help and exit\n\
+  -m, --max-cycles=CYCLES  Kill the emulation after CYCLES\n\
+       +max-cycles=CYCLES\n\
+  -s, --seed=SEED          Use random number seed SEED\n\
+  -V, --verbose            Enable all Chisel printfs (cycle-by-cycle info)\n\
+       +verbose\n\
+", stdout);
+  fputs("\
+  -v, --vcd=FILE,          Write vcd trace to FILE (or '-' for stdout)\n\
+  -x, --dump-start=CYCLE   Start VCD tracing at CYCLE\n\
+       +dump-start\n\
+", stdout);
+  // fputs("\n" PLUSARG_USAGE_OPTIONS, stdout);
+  fputs("\n" HTIF_USAGE_OPTIONS, stdout);
+  printf("\n"
+"EXAMPLES\n"
+"  - run a bare metal test:\n"
+"    %s $RISCV/riscv64-unknown-elf/share/riscv-tests/isa/rv64ui-p-add\n"
+"  - run a bare metal test showing cycle-by-cycle information:\n"
+"    %s +verbose $RISCV/riscv64-unknown-elf/share/riscv-tests/isa/rv64ui-p-add 2>&1 | spike-dasm\n"
+"  - run an ELF (you wrote, called 'hello') using the proxy kernel:\n"
+"    %s pk hello\n",
+         program_name, program_name, program_name);
+}
+
 int main(int argc, char** argv) {
   unsigned random_seed = (unsigned)time(NULL) ^ (unsigned)getpid();
   uint64_t max_cycles = -1;
@@ -114,12 +111,11 @@ int main(int argc, char** argv) {
       {"help",        no_argument,       0, 'h' },
       {"max-cycles",  required_argument, 0, 'm' },
       {"seed",        required_argument, 0, 's' },
-      {"rbb-port",    required_argument, 0, 'r' },
       {"verbose",     no_argument,       0, 'V' },
       HTIF_LONG_OPTIONS
     };
     int option_index = 0;
-    int c = getopt_long(argc, argv, "-chm:s:r:V", long_options, &option_index);
+    int c = getopt_long(argc, argv, "-chm:s:V", long_options, &option_index);
     if (c == -1) break;
  retry:
     switch (c) {
@@ -130,6 +126,17 @@ int main(int argc, char** argv) {
       case 'm': max_cycles = atoll(optarg); break;
       case 's': random_seed = atoi(optarg); break;
       case 'V': verbose = true;             break;
+#if VM_TRACE
+      case 'v': {
+        vcdfile = strcmp(optarg, "-") == 0 ? stdout : fopen(optarg, "w");
+        if (!vcdfile) {
+          std::cerr << "Unable to open " << optarg << " for VCD write\n";
+          return 1;
+        }
+        break;
+      }
+      case 'x': start = atoll(optarg);      break;
+#endif
       // Process legacy '+' EMULATOR arguments by replacing them with
       // their getopt equivalents
       case 1: {
@@ -218,32 +225,21 @@ done_processing:
 
   signal(SIGTERM, handle_sigterm);
 
-  // reset for several cycles to handle pipelined reset
-  tile->reset = UInt<1>(1);
-  tick_dtm(tile, done_reset);
-  tile->eval(false, verbose, done_reset);
-  for (int i = 0; i < 10; i++) {
-  //   tile->reset = 1;
-  //   tile->clock = 0;
-  //   tile->eval();
-  //   tile->clock = 1;
-  //   tile->eval();
-    tile->eval(true, verbose, done_reset);
-    tick_dtm(tile, done_reset);  
-    // trace_count ++;
-  }
-  // tile->reset = 0;
-  // done_reset = true;
-  tile->reset = UInt<1>(0);
-  tile->eval(false, verbose, done_reset);
-  tick_dtm(tile, done_reset);
-  done_reset = true;
+  // The initial block in AsyncResetReg is either racy or is not handled
+  // correctly by Verilator when the reset signal isn't a top-level pin.
+  // So guarantee that all the AsyncResetRegs will see a rising edge of
+  // the reset signal instead of relying on the initial block.
+  // ESSENT currently does not treat Async differently
+  int async_reset_cycles = 2;
 
-  while (!dtm->done() && !tile->io_success && trace_count < max_cycles) {
-    // tile->clock = 0;
-    // tile->eval();
-    // tile->clock = 1;
-    // tile->eval();
+  // Rocket-chip requires synchronous reset to be asserted for several cycles.
+  int sync_reset_cycles = 10;
+
+  while (trace_count < max_cycles) {
+    if (done_reset && (dtm->done() || tile->io_success))
+      break;
+    tile->reset = UInt<1>(trace_count < async_reset_cycles + sync_reset_cycles);
+    done_reset = !tile->reset;
     tile->eval(true, verbose, done_reset);
     tick_dtm(tile, done_reset);
     trace_count++;
