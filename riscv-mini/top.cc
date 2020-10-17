@@ -17,6 +17,7 @@ mm_magic_t* mem;
 
 void tick(bool verbose, bool done_reset) {
   main_time++;
+  
   top->io_nasti_aw_ready = UInt<1>(mem->aw_ready());
   top->io_nasti_ar_ready = UInt<1>(mem->ar_ready());
   top->io_nasti_w_ready = UInt<1>(mem->w_ready());
@@ -27,9 +28,9 @@ void tick(bool verbose, bool done_reset) {
   top->io_nasti_r_bits_id = UInt<5>(mem->r_id());
   top->io_nasti_r_bits_resp = UInt<2>(mem->r_resp());
   top->io_nasti_r_bits_last = UInt<1>(mem->r_last());
-
   memcpy(&top->io_nasti_r_bits_data, mem->r_data(), 8);
-  
+
+  top->eval(true, verbose, done_reset);
   mem->tick(
     top->reset, 
     top->io_nasti_ar_valid, 
@@ -49,7 +50,6 @@ void tick(bool verbose, bool done_reset) {
     top->io_nasti_r_ready, 
     top->io_nasti_b_ready 
   );
-  top->eval(true, verbose, done_reset);
   main_time++;
 
 }
