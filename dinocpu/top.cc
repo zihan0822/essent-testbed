@@ -21,41 +21,33 @@ void tick(bool verbose, bool done_reset) {
 
 }
 
-void load_mem(UInt<32>* mem, const char* fn)
-{
+void load_mem(UInt<32>* mem, const char* fn) {
   int start = 0;
   ifstream in(fn);
-  if (!in)
-  {
+  if (!in) {
     cerr << "could not open " << fn << endl;
     exit(EXIT_FAILURE);
   }
   string line;
   int j = 0;
   
-  while (getline(in, line)) //ISSUE HERE
-  {
+  while (getline(in, line)) {
     #define parse_nibble(c) ((c) >= 'A' ? (c)-'A'+10 : (c)-'0')
     uint32_t temp = 0;
-    //UInt<36> temp2 = 0
     for (int i = 0; i < 8; i++){
-      //cout << temp << endl;
       temp <<= 4;
-      //cout << temp << endl;
-      // cout << line[i] << parse_nibble(line[i]) << endl;
       temp = temp | (parse_nibble(line[i]));
     }
-    
     mem[j] = UInt<32>(temp);
-    //cout << mem[j] << endl;
     j++;
-    //start += line.length()/2;
   }
 }
 
-
-
 int main(int argc, char** argv) {
+  int cycles = 5;
+  if (argc >= 3){
+      cycles = atoi(argv[2]);
+  }
   uint64_t timeout = 1000L;
   top = new Top;
 
@@ -71,7 +63,7 @@ int main(int argc, char** argv) {
 
   top->reset = UInt<1>(0);
   int j = 0;
-  for (size_t i = 0; i < 5 ; i++) {
+  for (size_t i = 0; i < cycles ; i++) {
     tick(true, true); 
 
     printf("PC: %09" PRIx64 ", REG[%2" PRIu64 "] \n", top->cpu.pc.as_single_word(), top->cpu$registers$io_writereg.as_single_word()); 
