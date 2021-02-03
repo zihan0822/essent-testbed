@@ -16,7 +16,7 @@ Top.h: $(fir_filename)
 CXXFLAGS = -O3 -std=c++11 -g
 INCLUDES = -I../firrtl-sig 
 
-top: top.cc mm.cc
+top: top.cc
 	$(CXX) $(CXXFLAGS) $(INCLUDES) top.cc -o top 
 clean:
 	rm Top.h top Top.fir
