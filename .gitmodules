@@ -22,3 +22,6 @@
 [submodule "riscv-mini/riscv-mini"]
 	path = riscv-mini/riscv-mini
 	url = https://github.com/ucb-bar/riscv-mini.git
+[submodule "dinocpu/dinocpu"]
+	path = dinocpu/dinocpu
+	url = https://github.com/jlpteaching/dinocpu.git
