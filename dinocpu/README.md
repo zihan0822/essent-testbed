@@ -2,7 +2,7 @@
 
 ### run `make top` to create header file
 ### modify `cpu$registers$io_writereg` to be a global variable
-## run `make`
+## run `make top`
 
 # Usage:
 
