@@ -6,7 +6,7 @@ name := "essent.testbed"
 
 mainClass in (Compile, run) := Some("essent.testbed.Launcher")
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.11"
 
 def scalacOptionsVersion(scalaVersion: String): Seq[String] = {
   Seq() ++ {
@@ -24,13 +24,13 @@ scalacOptions ++= scalacOptionsVersion(scalaVersion.value)
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-language:reflectiveCalls")
 
-libraryDependencies += "edu.berkeley.cs" %% "firrtl" % "1.1.3"
+libraryDependencies += "edu.berkeley.cs" %% "firrtl" % "1.3.1"
 
-libraryDependencies += "edu.berkeley.cs" %% "chisel3" % "3.1.3"
+libraryDependencies += "edu.berkeley.cs" %% "chisel3" % "3.3.1"
 
-libraryDependencies += "edu.berkeley.cs" %% "firrtl-interpreter" % "1.1.3"
+libraryDependencies += "edu.berkeley.cs" %% "firrtl-interpreter" % "1.3.1"
 
-libraryDependencies += "edu.berkeley.cs" %% "chisel-iotesters" % "1.2.3"
+libraryDependencies += "edu.berkeley.cs" %% "chisel-iotesters" % "1.3.1"
 
 lazy val essent = (project in file("essent"))
 

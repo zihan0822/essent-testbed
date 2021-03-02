@@ -9,7 +9,7 @@ class Stopper extends Module {
     val in = Input(UInt(2.W))
   })
   when (io.in === 2.U) {
-    chisel3.core.stop(4)
+    chisel3.stop(4)
   }
 }
 
