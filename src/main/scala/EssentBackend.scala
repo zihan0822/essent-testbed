@@ -13,22 +13,15 @@ import java.nio.file.{Files, Paths}
 object EssentBackend {
   val baseBuildAndTestDirName = "essent_run_dir"
 
-  def buildAndRun[T <: chisel3.Module](dutGen: () => T)(testerGen: T => PeekPokeTester[T]) = {
-    // emit firrtl
-    val circuit = chisel3.Driver.elaborate(dutGen)
-    // parse firrtl
-    val chirrtl = firrtl.Parser.parse(chisel3.Driver.emit(circuit))
-    val dut = (circuit.components find (_.name == circuit.name)).get.id.asInstanceOf[T]
-    // make output directory
-    val dir = new File(baseBuildAndTestDirName + "/" + dut.getClass.getName)
+  def buildAndRun[T <: chisel3.Module](dutName: String)(dutGen: () => T)(testerGen: T => PeekPokeTester[T]) = {
+    // set up buildDir
+    val dir = new File(baseBuildAndTestDirName + "/" + dutName)
     dir.mkdirs()
     val buildDir = dir.getAbsolutePath
-    val dutName = chirrtl.main
-    // emit .fir file for essent to read in
+    // get firrtl
+    val cs = new chisel3.stage.ChiselStage()
+    val dutFirrtl = firrtl.Parser.parse(cs.emitFirrtl(dutGen(), Array("--target-dir", buildDir)))
     val firFile = new File(buildDir, s"$dutName.fir")
-    val firWriter = new FileWriter(firFile)
-    firWriter.write(chirrtl.serialize)
-    firWriter.close
     // copy over needed headers
     chisel3.iotesters.copyVerilatorHeaderFiles(buildDir)
     val commWrapResource = essent.Driver.getClass.getResourceAsStream("/comm_wrapper.h")
