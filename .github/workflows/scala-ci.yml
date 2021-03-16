@@ -14,11 +14,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: fetch essent & firrtl-sig
-        run: git submodule update --init essent firrtl-sig
+      # https://github.com/actions/checkout/issues/116#issuecomment-644419389
+      - name: checkout essent & firrtl-sig
+        uses: actions/checkout@v2
+        with:
+            token: ${{ secrets.CI_TOKEN }}
+            submodules: essent firrtl-sig
 
       - name: build stuff
         run: sbt compile
