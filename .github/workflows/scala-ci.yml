@@ -18,7 +18,6 @@ jobs:
       - name: checkout essent & firrtl-sig
         uses: actions/checkout@v2
         with:
-            token: ${{ secrets.CI_TOKEN }}
             submodules: essent firrtl-sig
 
       - name: build stuff
