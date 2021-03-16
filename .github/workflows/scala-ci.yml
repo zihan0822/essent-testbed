@@ -1,0 +1,27 @@
+name: Scala/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  small-designs:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: fetch essent & firrtl-sig
+        run: git submodule update --init essent firrtl-sig
+
+      - name: build stuff
+        run: sbt compile
+
+      - name: run small designs
+        run: sbt 'run all'
