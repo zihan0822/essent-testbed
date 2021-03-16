@@ -18,7 +18,7 @@ jobs:
       - name: checkout essent & firrtl-sig
         uses: actions/checkout@v2
         with:
-            submodules: essent firrtl-sig
+            submodules: true
 
       - name: build stuff
         run: sbt compile
