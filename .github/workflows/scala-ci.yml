@@ -14,11 +14,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # https://github.com/actions/checkout/issues/116#issuecomment-644419389
       - name: checkout essent & firrtl-sig
         uses: actions/checkout@v2
         with:
             submodules: true
+
+      - name: cache SBT deps
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/coursier
+            ~/.sbt
+          key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
 
       - name: build stuff
         run: sbt compile
