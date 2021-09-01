@@ -4,6 +4,13 @@ essent-testbed [![Build Status](https://github.com/ucsc-vama/essent-testbed/acti
 This internal (private) repo is the workspace for essent development. To work on essent, everything needed should either be in this repo, or it should provide the automation to grab the needed resources.
 
 
+# Populating Submodules
+This repo contains git submodules. You will need to populate them before the repo is fully usable.
+```
+  > git submodule update --init
+```
+
+
 # Small Design Tests
 Launch sbt and run the name of small design or say all to try all of them. For example:
 ```
