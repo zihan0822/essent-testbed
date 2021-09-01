@@ -1,6 +1,6 @@
-organization := "lbl.gov"
+organization := "ucsc.edu"
 
-version := "0.2"
+version := "0.8"
 
 name := "essent.testbed"
 
