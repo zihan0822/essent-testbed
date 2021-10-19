@@ -10,7 +10,7 @@ ifeq ($(ALL_ON),1)
 	CXXFLAGS += -DALL_ON
 endif
 
-INCLUDES = -I../csrc -Iriscv/include -I../firrtl-sig
+INCLUDES = -Iriscv/include -I../firrtl-sig
 
 LIBS = -Lriscv/lib -Wl,-rpath,riscv/lib -lfesvr -lpthread
 
