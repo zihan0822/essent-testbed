@@ -25,3 +25,6 @@
 [submodule "dinocpu/dinocpu"]
 	path = dinocpu/dinocpu
 	url = https://github.com/jlpteaching/dinocpu.git
+[submodule "rocket-recent/riscv-isa-sim"]
+	path = rocket-recent/riscv-isa-sim
+	url = https://github.com/riscv/riscv-isa-sim.git
