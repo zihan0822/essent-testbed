@@ -1,12 +1,12 @@
 diff --git a/fesvr/dtm.cc b/fesvr/dtm.cc
-index e1b15b2..c5f02d5 100644
+index e1b15b2..60cdcb9 100644
 --- a/fesvr/dtm.cc
 +++ b/fesvr/dtm.cc
-@@ -1,6 +1,7 @@
- #include "dtm.h"
- #include "debug_defines.h"
- #include "encoding.h"
-+#include <stdexcept>
+@@ -4,6 +4,7 @@
  #include <stdlib.h>
  #include <stdio.h>
  #include <string.h>
++#include <stdexcept>
+ #include <assert.h>
+ #include <pthread.h>
+ 

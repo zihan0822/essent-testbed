@@ -1,0 +1,12 @@
+diff --git a/riscv/devices.h b/riscv/devices.h
+index 1bc9618d..5787513a 100644
+--- a/riscv/devices.h
++++ b/riscv/devices.h
+@@ -4,6 +4,7 @@
+ #include "decode.h"
+ #include "mmio_plugin.h"
+ #include <cstdlib>
++#include <stdexcept>
+ #include <string>
+ #include <map>
+ #include <vector>

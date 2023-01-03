@@ -21,6 +21,8 @@ riscv_dir := $(shell pwd)/riscv
 riscv/lib/libfesvr.a:
 	git submodule update --init riscv-isa-sim
 	cd riscv-isa-sim; git checkout `cat ../riscv-isa-sim.commit`
+	patch riscv-isa-sim/fesvr/dtm.cc ../riscv-fesvr.patch
+	patch riscv-isa-sim/riscv/devices.h ../riscv-isa-sim.patch
 	mkdir $(riscv_dir)
 	cd riscv-isa-sim; mkdir build; cd build; ../configure --prefix=$(riscv_dir) --target=riscv64-unknown-elf; make install
 
