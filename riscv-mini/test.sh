@@ -1,35 +1,41 @@
 #!/bin/bash
-TESTDIRECTORY="riscv-mini/src/test/resources"
-ESSENTDIRECTORY="essent-testbed/riscv-mini"
-RISCDIRECTORY="riscv-mini"
 
-cd $TESTDIRECTORY
-i=0
-for file in *; do 
-    if [ -f "$file" ]; then 
-        tests[$i]=$file
-        (( i++ ))
-    fi 
-done
-cd "../../.."
-mkdir "tests"
-cd ".."
-mkdir "tests"
-mkdir "testDifferences"
+TEST_PROGRAM_DIR="riscv-mini/src/test/resources"
 
-for test in "${tests[@]}"
+VER_OUT_DIR="test-verilator"
+ESS_OUT_DIR="test-essent"
+DIFF_DIR="test-diff"
+
+mkdir -p $VER_OUT_DIR
+mkdir -p $ESS_OUT_DIR
+mkdir -p $DIFF_DIR
+
+mismatch=false
+for testProg in "$TEST_PROGRAM_DIR"/*
 do
+    test=$(basename "$testProg")
     echo "$test:"
-    cd $RISCDIRECTORY
-    VERILATOR= ./VTile "./src/test/resources/$test" 2>&1 | tee "tests/$test.out" > /dev/null
+    # run verilator
+    VERILATOR= ./VTile "$testProg" 2>&1 | tee "$VER_OUT_DIR/$test.out" > /dev/null
     if [ -z "$VERILATOR" ]; then
-        echo "Verilator Worked"
+        echo "  Verilator ran"
     fi
-    cd ..
-    ESSENT= ./top "$TESTDIRECTORY/$test" > "tests/$test.out"
+    # run essent
+    ESSENT= ./top "$testProg" 2>&1 | tee "$ESS_OUT_DIR/$test.out" > /dev/null
     if [ -z "$ESSENT" ]; then
-        echo "ESSENT Worked"
+        echo "  ESSENT ran"
     fi
-    diff -w "$RISCDIRECTORY/tests/$test.out" "./tests/$test.out" > "testDifferences/$test.out"
-    echo 
+    # diff the results
+    diff -w "$VER_OUT_DIR/$test.out" "$ESS_OUT_DIR/$test.out" > "$DIFF_DIR/$test.out"
+    if [ -s "$DIFF_DIR/$test.out" ]; then
+      echo "Mismatch for $test"
+      mismatch=true
+    fi
 done
+echo "Runs complete"
+
+# notify if any mismatches
+if [ "$mismatch" == true ]; then
+  echo "There were mismatches. Check $DIFF_DIR for non-empty files"
+  exit 1
+fi
