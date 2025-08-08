@@ -43,9 +43,19 @@ jobs:
         working-directory: ${{ matrix.core }}/
         run: make TestHarness.v
 
+      - name: Verilog Artifact
+        uses: actions/upload-artifact@v4
+        name: ${{ matrix.core }} Verilog
+        path: ${{ matrix.core }}/TestHarness.v
+
       - name: make emulator
         working-directory: ${{ matrix.core }}/
         run: make emulator
+
+      - name: SimArtifact
+        uses: actions/upload-artifact@v4
+        name: ${{ matrix.core }} Sim
+        path: ${{ matrix.core }}/TestHarness.h
 
       - name: run emulator
         working-directory: ${{ matrix.core }}/
