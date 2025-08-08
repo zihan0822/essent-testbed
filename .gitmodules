@@ -31,3 +31,6 @@
 [submodule "boom21/riscv-isa-sim"]
 	path = boom21/riscv-isa-sim
 	url = https://github.com/riscv-software-src/riscv-isa-sim.git
+[submodule "firrtl"]
+	path = firrtl
+	url = git@github.com:chipsalliance/firrtl.git
