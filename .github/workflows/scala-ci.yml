@@ -2,9 +2,9 @@ name: Scala/C++ CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -15,17 +15,9 @@ jobs:
 
     steps:
       - name: checkout essent & firrtl-sig
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
             submodules: true
-
-      - name: cache SBT deps
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/coursier
-            ~/.sbt
-          key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
 
       - name: build stuff
         run: sbt compile
