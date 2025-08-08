@@ -18,9 +18,10 @@ riscv_dir := $(shell pwd)/riscv
 
 riscv/lib/libfesvr.so:
 	git submodule update --init riscv-fesvr
-	cd riscv-fesvr; git checkout `cat ../fesvr.commit`
+	cd riscv-fesvr; git checkout `cat ../fesvr.commit` ; git checkout . ; git clean . -dxf
 	patch riscv-fesvr/fesvr/dtm.cc ../riscv-fesvr.patch
-	mkdir $(riscv_dir)
+	patch riscv-fesvr/fesvr/device.h ../riscv-fesvr_device_h.patch
+	mkdir -p $(riscv_dir)
 	cd riscv-fesvr; mkdir build; cd build; ../configure --prefix=$(riscv_dir) --target=riscv64-unknown-elf; make install
 
 TestHarness.h:

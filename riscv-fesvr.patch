@@ -2,11 +2,12 @@ diff --git a/fesvr/dtm.cc b/fesvr/dtm.cc
 index e1b15b2..60cdcb9 100644
 --- a/fesvr/dtm.cc
 +++ b/fesvr/dtm.cc
-@@ -4,6 +4,7 @@
+@@ -4,6 +4,8 @@
  #include <stdlib.h>
  #include <stdio.h>
  #include <string.h>
 +#include <stdexcept>
++#include <cstdint>
  #include <assert.h>
  #include <pthread.h>
  
