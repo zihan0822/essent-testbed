@@ -41,7 +41,9 @@ jobs:
 
       - name: gen Verilog
         working-directory: ${{ matrix.core }}/
-        run: make TestHarness.v
+        run: |
+          make TestHarness.v
+          ls
 
       - name: Verilog Artifact
         uses: actions/upload-artifact@v4
