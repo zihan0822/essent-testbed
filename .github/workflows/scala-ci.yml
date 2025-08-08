@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: olafurpg/setup-scala@v14
       - name: checkout essent & firrtl-sig
         uses: actions/checkout@v4
         with:
