@@ -25,3 +25,26 @@ jobs:
 
       - name: run small designs
         run: sbt 'run all'
+
+  rocket:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        core: [rocket, rocket16, rocket18, rocket20]
+
+    steps:
+      - uses: olafurpg/setup-scala@v14
+      - name: checkout essent & firrtl-sig
+        uses: actions/checkout@v4
+        with:
+            submodules: true
+
+      - name: make emulator
+        working-directory: ${{ matrix.core }}/
+        run: make emulator
+
+      - name: run emulator
+        working-directory: ${{ matrix.core }}/
+        run: ./emulator drystone.riscv
+
+    
