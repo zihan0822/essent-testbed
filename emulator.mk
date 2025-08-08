@@ -15,7 +15,7 @@ INCLUDES = -Iriscv/include -I../firrtl-sig
 LIBS = -Lriscv/lib -Wl,-rpath,riscv/lib -lfesvr -lpthread
 
 riscv_dir := $(shell pwd)/riscv
-harness_full_path := $(shell pwd)/TestHarness.h
+harness_verilog_full_path := $(shell pwd)/TestHarness.v
 harness_annos_full_path := $(shell pwd)/TestHarness.anno.json
 
 
@@ -31,7 +31,7 @@ TestHarness.h:
 	cd ../essent; sbt 'run $(FIR_PATH)'
 
 TestHarness.v:
-	cd ../firrtl; sbt 'run -i $(FIR_PATH) -o $(harness_full_path) -E sverilog -foaf $(harness_annos_full_path)'
+	cd ../firrtl; sbt 'run -i $(FIR_PATH) -o $(harness_verilog_full_path) -E sverilog -foaf $(harness_annos_full_path)'
 
 emulator: emulator.cc TestHarness.h riscv/lib/libfesvr.so
 	$(CXX) $(CXXFLAGS) $(INCLUDES) emulator.cc -o emulator $(LIBS)
