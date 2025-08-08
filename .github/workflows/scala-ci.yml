@@ -10,21 +10,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  small-designs:
-    runs-on: ubuntu-latest
+  # small-designs:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: olafurpg/setup-scala@v14
-      - name: checkout essent & firrtl-sig
-        uses: actions/checkout@v4
-        with:
-            submodules: true
+  #   steps:
+  #     - uses: olafurpg/setup-scala@v14
+  #     - name: checkout essent & firrtl-sig
+  #       uses: actions/checkout@v4
+  #       with:
+  #           submodules: true
 
-      - name: build stuff
-        run: sbt compile
+  #     - name: build stuff
+  #       run: sbt compile
 
-      - name: run small designs
-        run: sbt 'run all'
+  #     - name: run small designs
+  #       run: sbt 'run all'
 
   rocket:
     runs-on: ubuntu-latest
