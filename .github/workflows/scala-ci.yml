@@ -45,6 +45,6 @@ jobs:
 
       - name: run emulator
         working-directory: ${{ matrix.core }}/
-        run: ./emulator drystone.riscv
+        run: ./emulator dhrystone.riscv
 
     
