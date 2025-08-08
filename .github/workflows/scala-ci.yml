@@ -47,4 +47,8 @@ jobs:
         working-directory: ${{ matrix.core }}/
         run: ./emulator dhrystone.riscv
 
+      - name: gen Verilog
+        working-directory: ${{ matrix.core }}/
+        run: make TestHarness.v
+
     

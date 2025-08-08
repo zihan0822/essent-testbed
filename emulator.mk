@@ -27,5 +27,8 @@ riscv/lib/libfesvr.so:
 TestHarness.h:
 	cd ../essent; sbt 'run $(FIR_PATH)'
 
+TestHarness.v:
+	cd ../firrtl; sbt 'run'
+
 emulator: emulator.cc TestHarness.h riscv/lib/libfesvr.so
 	$(CXX) $(CXXFLAGS) $(INCLUDES) emulator.cc -o emulator $(LIBS)
