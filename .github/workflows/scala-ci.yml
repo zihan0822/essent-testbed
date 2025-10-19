@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        core: [rocket16, rocket20]
+        core: [boom, boom21]
 
     steps:
       - uses: olafurpg/setup-scala@v14
